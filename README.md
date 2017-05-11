@@ -29,5 +29,4 @@ Sword的开发过程采用敏捷开发的改造版本，具体请看Log/workflow
 Sword的开发过程中采用单元测试／集成测试来保障代码质量
 
 Sword使用的持续集成服务器的部署如下：
-
 Continuous Integration: https://gist.github.com/Clcanny/e49e1c2f443bc795516bed7061b9a03d
