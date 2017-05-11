@@ -40,7 +40,7 @@
 %token <type_node> SEMI COMMA DOT
 %token <type_node> LP RP LB RB LC RC
 
-%type <type_node> ArrayType ReferType FuncCall ADTType
+%type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
 %type <type_node> ConstructorId TypeId TypeIdList ConstructorDec ConstructorDecList ADTDef
 %type <type_node> FuncType FuncParamType FuncBody
@@ -214,7 +214,11 @@ TypeId
     : UPPERID { $$ = new_parent_node("TypeId", GROUP_7 + 14, 1, $1); }
     ;
 ADTType
-    : TypeId LB ADTParamList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
+    : TypeId LB SpecifierList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
+    ;
+SpecifierList
+    : Specifier SpecifierList { $$ = new_parent_node("SpecifierList", GROUP_7 + 16, 2, $1, $2); }
+    | /* empty */ { $$ = new_parent_node("SpecifierList", GROUP_7 + 17, 0); }
     ;
 /* pattern matching */
 PatternMatching
@@ -236,7 +240,7 @@ PatternMatchingParamList
 Specifier
     : BUILDINTYPE { $$ = new_parent_node("Specifier", GROUP_8 + 1, 1, $1); }
     | LET { $$ = new_parent_node("Specifier", GROUP_8 + 2, 1, $1); }
-    | TypeId { $$ = new_parent_node("Specifier", GROUP_8 + 3, 1, $1); }
+    /* | TypeId { $$ = new_parent_node("Specifier", GROUP_8 + 3, 1, $1); } */
     | ArrayType { $$ = new_parent_node("Specifier", GROUP_8 + 4, 1, $1); }
     | ReferType { $$ = new_parent_node("Specifier", GROUP_8 + 5, 1, $1); }
     /* 为了照顾函数类型定义的一种语法糖，不得不这样写 */
