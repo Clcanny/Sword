@@ -211,6 +211,7 @@ ConstructorUseTypeList
 TypeId
     : UPPERID { $$ = new_parent_node("TypeId", GROUP_7 + 14, 1, $1); }
     ;
+/* ADT类型的使用 */
 ADTType
     : TypeId LB SpecifierList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
     ;

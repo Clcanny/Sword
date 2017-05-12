@@ -7,3 +7,5 @@ Maybe[Int Float] z
 data Either a b = Left a | Right b
 
 Either[Int Maybe[Int]] a
+
+REFER(Int) [
