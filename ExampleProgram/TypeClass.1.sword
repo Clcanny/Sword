@@ -1,0 +1,4 @@
+class[A] Eq
+{
+    Func(A -> A -> Bool) equal
+}

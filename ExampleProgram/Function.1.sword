@@ -1,0 +1,4 @@
+Func(Int) fa
+Func(Int -> Int) fb
+Func(Int -> Func(Int -> Int)) fc
+Func(Int -> Int -> Int) fd

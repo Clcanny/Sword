@@ -1,0 +1,17 @@
+class[E: Eq, C] Collection
+{
+    Func(C -> E -> C) insert
+    Func(C -> E -> Bool) member
+}
+
+instance[] Collection List[Int] Int
+{
+    insert = flip (:)
+    member = flip elem
+}
+
+instance[E: Eq] Collection List[E] E
+{
+    insert = flip (:)
+    member = flip elem
+}

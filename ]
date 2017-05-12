@@ -12,10 +12,5 @@ refer(Int) pa = refer(a)
 
 defer(refer(a))
 
-Func[a: InterfaceA InterfaceC, b: Interface B](a -> b -> refer(a)) f;
- = [a: InterfaceA, b: InterfaceB](a x, b y) -> a {
+Func[a: InterfaceA InterfaceC, b: Interface B](a -> b -> refer(a)) f = [a: InterfaceA, b: InterfaceB](a x, b y) -> a {
 }
-
-class A where
-    Func(Int) print
-    Func(Int -> Int)  inout

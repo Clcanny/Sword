@@ -1,0 +1,4 @@
+let MyStruct[] = MyStruct Int Int Int
+let ms: MyStruct[] = MyStruct(1, 2, 3)
+let a = ms.1, b = ms.2, c = ms.3
+let MyStruct(x, y, z) = ms

@@ -1,0 +1,3 @@
+Func[E: Eq](E -> E -> Bool) f = [E: Eq](E x, E y) -> Bool {
+    return equal(x, y)
+}
