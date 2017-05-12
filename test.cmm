@@ -8,4 +8,9 @@ data Either a b = Left a | Right b
 
 Either[Int Maybe[Int]] a
 
-REFER(Int) [
+refer(Int) pa = refer(a)
+
+defer(refer(a))
+
+f[a: InterfaceA, b: InterfaceB](a x, b y) -> a {
+}
