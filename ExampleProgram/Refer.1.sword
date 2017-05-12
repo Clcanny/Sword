@@ -1,0 +1,3 @@
+let a: Int = 1
+let ra: Refer[Int] = a
+let rra: Refer[Refer[Int]] = ra

@@ -1,0 +1,3 @@
+let f = [](let x: Refer[Int]) -> Refer[Int] {
+    return x
+}
