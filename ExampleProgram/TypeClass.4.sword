@@ -1,7 +1,7 @@
 class[E: Eq, C] Collection
 {
-    Func(C[E] -> E -> C[E]) insert
-    Func(C[E] -> E -> Bool) member
+    insert: Func(C[E] -> E -> C[E])
+    member: Func(C[E] -> E -> Bool)
 }
 
 instance[E: Eq] Collection List E
