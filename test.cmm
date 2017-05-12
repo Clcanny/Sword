@@ -1,6 +1,9 @@
-data Maybe a  = Just a
-                Nothing
+data Maybe a  = Just a | Nothing
 
 Maybe[] x
 Maybe[Int] y
 Maybe[Int Float] z
+
+data Either a b = Left a | Right b
+
+Either[Int Maybe[Int]] a

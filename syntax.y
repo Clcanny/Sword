@@ -42,7 +42,7 @@
 
 %type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
-%type <type_node> ConstructorId TypeId TypeIdList ConstructorDec ConstructorDecList ADTDef
+%type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
 %type <type_node> FuncType FuncParamType FuncBody
 %type <type_node> DSList
 %type <type_node> Program
@@ -108,7 +108,7 @@ Stmt
     : Exp SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 1, 1, $1); }
     | VarDef SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 2, 1, $1); }
     /* 为避免不明原因引起的冲突，把ADTDef后跟的SEMI移到下层产生式 */
-    | ADTDef { $$ = new_parent_node("Stmt", GROUP_3 + 3, 1, $1); }
+    | ADTDef SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 3, 1, $1); }
     | CompSt { $$ = new_parent_node("Stmt", GROUP_3 + 4, 1, $1); }
     | RETURN Exp SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 5, 1, $2); }
     | IF LP Exp RP Stmt %prec LOWER_THAN_ELSE { $$ = new_parent_node("Stmt", GROUP_3 + 6, 2, $3, $5); }
@@ -181,8 +181,7 @@ ReferType
 
 /* ADT */
 ADTDef
-    : ADTHeader %prec LOWER_THAN_ASSIGNOP SEMI { $$ = new_parent_node("ADTRef", GROUP_7 + 1, 1, $1); }
-    | ADTHeader ASSIGNOP ConstructorDecList { $$ = new_parent_node("ADTDef", GROUP_7 + 2, 2, $1, $3); }
+    : ADTHeader ASSIGNOP ConstructorDec ConstructorDecList { $$ = new_parent_node("ADTDef", GROUP_7 + 2, 3, $1, $3, $4); }
     ;
 ADTHeader
     : DATA TypeId ADTParamList { $$ = new_parent_node("ADTHeader", GROUP_7 + 3, 2, $2, $3); }
@@ -195,20 +194,19 @@ ADTParam
     : LOWERID { $$ = new_parent_node("ADTParam", GROUP_7 + 6, 1, $1); }
     ;
 ConstructorDecList
-    : ConstructorDec { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 7, 1, $1); }
-    | ConstructorDec ConstructorDecList { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 8, 2, $1, $2); } 
+    : SINGLEOR ConstructorDec ConstructorDecList { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 7, 2, $2, $3); } 
+    | /* empty */ { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 8, 0); }
     ;
 ConstructorDec
-    : ConstructorId TypeIdList { $$ = new_parent_node("ConstructorDec", GROUP_7 + 9, 2, $1, $2); }
+    : ConstructorId ConstructorUseTypeList { $$ = new_parent_node("ConstructorDec", GROUP_7 + 9, 2, $1, $2); }
     ;
 ConstructorId
     : UPPERID { $$ = new_parent_node("ConstructorId", GROUP_7 + 10, 1, $1); }
     ;
-TypeIdList
-    : Specifier TypeIdList { $$ = new_parent_node("TypeIdList", GROUP_7 + 11, 2, $1, $2); }
-    | ADTParam TypeIdList { $$ = new_parent_node("TypeIdList", GROUP_7 + 12, 2, $1, $2); }
-    /* 分号不能上移，否则冲突 */
-    | SEMI { $$ = new_parent_node("TypeIdList", GROUP_7 + 13, 0); }
+ConstructorUseTypeList
+    : Specifier ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 11, 2, $1, $2); }
+    | ADTParam ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 12, 2, $1, $2); }
+    | /* empty */ { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 13, 0); }
     ;
 TypeId
     : UPPERID { $$ = new_parent_node("TypeId", GROUP_7 + 14, 1, $1); }
