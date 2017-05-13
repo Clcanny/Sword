@@ -3,56 +3,24 @@
 
 #include "syntax_tree.h"
 #include "symbol_table.h"
-#include "for_each.h"
+#include <malloc.h>
+#include <inttypes.h>
+#include "Pointer.h"
+
 #include "DebugMacro.h"
+#include "AssertMacro.h"
+#include "DefineMacro.h"
+
 #include "3.h"
 #include "4.h"
 #include "7.h"
 #include "8.h"
 #include "9.h"
 #include "10.h"
-#include <malloc.h>
-#include <assert.h>
-#include <inttypes.h>
-#include "Pointer.h"
 
 void allocPointer();
 void deallocPointer();
 void noallocPointer();
-
-#define I(proNum) registerIAction(proNum, pro##proNum##IAction);
-#define IS(...) FOR_EACH(I, __VA_ARGS__)
-
-#define S(proNum) registerSAction(proNum, pro##proNum##SAction);
-#define SS(...) FOR_EACH(S, __VA_ARGS__)
-
-#define ID(proNum) \
-    void pro##proNum##IAction(AST_node *parent, AST_node *child, int childNum)
-#define AssociateHelperI(p1, p2) SDTIAction pro##p2##IAction = pro##p1##IAction;
-#define IDS(proNum, ...) \
-    void pro##proNum##IAction(AST_node *parent, AST_node *child, int childNum); \
-    FOR_EACH_2(AssociateHelperI, proNum, __VA_ARGS__) \
-    void pro##proNum##IAction(AST_node *parent, AST_node *child, int childNum)
-
-#define SD(proNum) \
-    void pro##proNum##SAction(AST_node *parent)
-#define AssociateHelperS(p1, p2) SDTSAction pro##p2##SAction = pro##p1##SAction;
-#define SDS(proNum, ...) \
-    void pro##proNum##SAction(AST_node *parent); \
-    FOR_EACH_2(AssociateHelperS, proNum, __VA_ARGS__) \
-    void pro##proNum##SAction(AST_node *parent)
-
-#define NID(n) \
-    ID(n) { \
-	int proNum = n; \
-	AllocatorRole allocatorRole = IRole;
-
-#define NSD(n) \
-    SD(n) { \
-	int proNum = n; \
-	AllocatorRole allocatorRole = SRole;
-
-#define END }
 
 #define D_type_info TypeInfo *type_info = (TypeInfo *)malloc(sizeof(TypeInfo));
 #define D_parent_info TypeInfo *parent_info = (TypeInfo *)parent->other_info;

@@ -15,7 +15,7 @@ TypeParamList
     ;
 
 TypeParam
-    : UPPERID { $$ = new_parent_node("TypeParam", GROUP_11 + 7, 1, $1); }
+    : UPPERID { $$ = new_parent_node("TypeParam", GROUP_11 + 6, 1, $1); }
     ;
 
 TypeClassList

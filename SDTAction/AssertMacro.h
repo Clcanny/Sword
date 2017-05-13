@@ -1,5 +1,7 @@
-#ifndef Assert_H
-#define Assert_H
+#ifndef AssertMacro_H
+#define AssertMacro_H
+
+#include <assert.h>
 
 #define AssertTypeInfo(info) \
     assert(info != NULL); \

@@ -1,7 +1,6 @@
 #include "SDTAction.h"
 #include "9.h"
 #include <string.h>
-#include "Assert.h"
 
 /* Local Definitions */
 /* VarDef */
