@@ -1,0 +1,3 @@
+TypeClassId
+    : UPPERID
+    ;

@@ -15,9 +15,6 @@ Exp
     | LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 11, 1, $2); }
     /* 函数调用 */
     | FuncCall { $$ = new_parent_node("Exp", GROUP_10 + 12, 1, $1); }
-    /* DEFER相关表达式 */
-    | REFER LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 13, 2, $1, $3); }
-    | DEFER LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 14, 2, $1, $3); }
     /* 从ADT中取数据 */
     | Exp DOT INT { $$ = new_parent_node("Exp", GROUP_10 + 15, 2, $1, $3); }
     /* Exp building block */

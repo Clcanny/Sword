@@ -42,6 +42,8 @@
 %token <type_node> INT FLOAT
 %token <type_node> LOWERID UPPERID
 
+%type <type_node> TypeParams TypeParamList TypeParam
+%type <type_node> TypeClassList TypeClassId
 %type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
 %type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
@@ -199,6 +201,26 @@ VarDec
 /* Using Variables */
 VarUse
     : LOWERID { $$ = new_parent_node("VarUse", GROUP_9 + 8, 1, $1); }
+TypeParams
+    : LB RB
+    | LB TypeParam COLON TypeClassList TypeParamList RB
+    | LB TypeParam TypeParamList RB
+    ;
+
+TypeParamList
+    : COMMA TypeParam COLON TypeClassList TypeParamList
+    | COMMA TypeParam TypeParamList
+    | /* empty */
+    ;
+
+TypeParam
+    : UPPERID
+    ;
+
+TypeClassList
+    : TypeClassId TypeClassList
+    | /* empty */
+    ;
 /* Expressions */
 Exp
     : Exp ASSIGNOP Exp {$$ = new_parent_node("Exp", GROUP_10 + 1, 2, $1, $3); }
@@ -216,9 +238,6 @@ Exp
     | LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 11, 1, $2); }
     /* 函数调用 */
     | FuncCall { $$ = new_parent_node("Exp", GROUP_10 + 12, 1, $1); }
-    /* DEFER相关表达式 */
-    | REFER LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 13, 2, $1, $3); }
-    | DEFER LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 14, 2, $1, $3); }
     /* 从ADT中取数据 */
     | Exp DOT INT { $$ = new_parent_node("Exp", GROUP_10 + 15, 2, $1, $3); }
     /* Exp building block */
@@ -226,6 +245,9 @@ Exp
     | INT { $$ = new_parent_node("Exp", GROUP_10 + 17, 1, $1); }
     | FLOAT { $$ = new_parent_node("Exp", GROUP_10 + 18, 1, $1); }
     | FuncBody { $$ = new_parent_node("Exp", GROUP_10 + 19, 1, $1); }
+    ;
+TypeClassId
+    : UPPERID
     ;
 /* Specifiers */
 Specifier
