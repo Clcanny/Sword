@@ -71,7 +71,24 @@
 %left STAR DIV
 %right NOT
 %left LP RP LB RB DOT
+
 %%
+/* Statements */
+Stmt
+    : Exp SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 1, 1, $1); }
+    | VarDef SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 2, 1, $1); }
+    /* 为避免不明原因引起的冲突，把ADTDef后跟的SEMI移到下层产生式 */
+    | ADTDef SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 3, 1, $1); }
+    | CompSt { $$ = new_parent_node("Stmt", GROUP_3 + 4, 1, $1); }
+    | RETURN Exp SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 5, 1, $2); }
+    | IF LP Exp RP Stmt %prec LOWER_THAN_ELSE { $$ = new_parent_node("Stmt", GROUP_3 + 6, 2, $3, $5); }
+    | IF LP Exp RP Stmt ELSE Stmt { $$ = new_parent_node("Stmt", GROUP_3 + 7, 3, $3, $5, $7); }
+    | WHILE LP Exp RP Stmt { $$ = new_parent_node("Stmt", GROUP_3 + 8, 3, $1, $3, $5); }
+    | SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 9, 0); }
+    ;
+CompSt
+    : LC DSList RC { $$ = new_parent_node("Compst", GROUP_3 + 10, 1, $2); }
+    ;
 /* High-level Definitions */
 Program
     : DSList {
@@ -102,23 +119,16 @@ DSList
     | /* empty */ { $$ = new_parent_node("DSList", GROUP_2 + 2, 0); }
     ;
 
-/* Statements */
-Stmt
-    : Exp SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 1, 1, $1); }
-    | VarDef SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 2, 1, $1); }
-    /* 为避免不明原因引起的冲突，把ADTDef后跟的SEMI移到下层产生式 */
-    | ADTDef SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 3, 1, $1); }
-    | CompSt { $$ = new_parent_node("Stmt", GROUP_3 + 4, 1, $1); }
-    | RETURN Exp SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 5, 1, $2); }
-    | IF LP Exp RP Stmt %prec LOWER_THAN_ELSE { $$ = new_parent_node("Stmt", GROUP_3 + 6, 2, $3, $5); }
-    | IF LP Exp RP Stmt ELSE Stmt { $$ = new_parent_node("Stmt", GROUP_3 + 7, 3, $3, $5, $7); }
-    | WHILE LP Exp RP Stmt { $$ = new_parent_node("Stmt", GROUP_3 + 8, 3, $1, $3, $5); }
-    | SEMI { $$ = new_parent_node("Stmt", GROUP_3 + 9, 0); }
-    ;
-CompSt
-    : LC DSList RC { $$ = new_parent_node("Compst", GROUP_3 + 10, 1, $2); }
+/* Array */
+ArrayType
+    : Specifier LB Exp RB { $$ = new_parent_node("ArrayType", GROUP_5 + 1, 2, $1, $3); }
     ;
 
+/* REFER */
+/* 指针 */
+ReferType
+    : REFER LP Specifier RP { $$ = new_parent_node("ReferType", GROUP_6 + 1, 1, $3); }
+    ;
 /* Function */
 /* 函数类型 */
 FuncParamType
@@ -166,86 +176,6 @@ Args
     | PLACEHOLDER COMMA Args { $$ = new_parent_node("Args", GROUP_4 + 12, 2, $1, $3); }
     | Exp { $$ = new_parent_node("Args", GROUP_4 + 13, 0); }
     ;
-
-/* Array */
-ArrayType
-    : Specifier LB Exp RB { $$ = new_parent_node("ArrayType", GROUP_5 + 1, 2, $1, $3); }
-    ;
-
-/* REFER */
-/* 指针 */
-ReferType
-    : REFER LP Specifier RP { $$ = new_parent_node("ReferType", GROUP_6 + 1, 1, $3); }
-    ;
-
-/* ADT */
-ADTDef
-    : ADTHeader ASSIGNOP ConstructorDec ConstructorDecList { $$ = new_parent_node("ADTDef", GROUP_7 + 2, 3, $1, $3, $4); }
-    ;
-ADTHeader
-    : DATA TypeId ADTParamList { $$ = new_parent_node("ADTHeader", GROUP_7 + 3, 2, $2, $3); }
-    ;
-ADTParamList
-    : ADTParam ADTParamList { $$ = new_parent_node("ADTParamList", GROUP_7 + 4, 2, $1, $2); }
-    | /* empty */ { $$ = new_parent_node("ADTParamList", GROUP_7 + 5, 0); }
-    ;
-ADTParam
-    : LOWERID { $$ = new_parent_node("ADTParam", GROUP_7 + 6, 1, $1); }
-    ;
-ConstructorDecList
-    : SINGLEOR ConstructorDec ConstructorDecList { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 7, 2, $2, $3); } 
-    | /* empty */ { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 8, 0); }
-    ;
-ConstructorDec
-    : ConstructorId ConstructorUseTypeList { $$ = new_parent_node("ConstructorDec", GROUP_7 + 9, 2, $1, $2); }
-    ;
-ConstructorId
-    : UPPERID { $$ = new_parent_node("ConstructorId", GROUP_7 + 10, 1, $1); }
-    ;
-ConstructorUseTypeList
-    : Specifier ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 11, 2, $1, $2); }
-    | ADTParam ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 12, 2, $1, $2); }
-    | /* empty */ { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 13, 0); }
-    ;
-TypeId
-    : UPPERID { $$ = new_parent_node("TypeId", GROUP_7 + 14, 1, $1); }
-    ;
-/* ADT类型的使用 */
-ADTType
-    : TypeId LB SpecifierList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
-    ;
-SpecifierList
-    : Specifier SpecifierList { $$ = new_parent_node("SpecifierList", GROUP_7 + 16, 2, $1, $2); }
-    | /* empty */ { $$ = new_parent_node("SpecifierList", GROUP_7 + 17, 0); }
-    ;
-/* pattern matching */
-PatternMatching
-    : LET LP ConstructorId PatternMatchingParamList RP ASSIGNOP VarDec { 
-        $$ = new_parent_node("PatternMatching", GROUP_7 + 15, 3, $3, $4, $7); 
-    }
-    ;
-PatternMatchingParamList
-    : LOWERID PatternMatchingParamList { 
-        $$ = new_parent_node("PatternMatchingParamList", GROUP_7 + 16, 2, $1, $2);
-    }
-    | PLACEHOLDER PatternMatchingParamList { 
-        $$ = new_parent_node("PatternMatchingParamList", GROUP_7 + 17, 2, $1, $2); 
-    }
-    | /* empty */ { $$ = new_parent_node("PatternMatchingParamList", GROUP_7 + 18, 0); }
-    ;
-
-/* Specifiers */
-Specifier
-    : BUILDINTYPE { $$ = new_parent_node("Specifier", GROUP_8 + 1, 1, $1); }
-    | LET { $$ = new_parent_node("Specifier", GROUP_8 + 2, 1, $1); }
-    /* | TypeId { $$ = new_parent_node("Specifier", GROUP_8 + 3, 1, $1); } */
-    | ArrayType { $$ = new_parent_node("Specifier", GROUP_8 + 4, 1, $1); }
-    | ReferType { $$ = new_parent_node("Specifier", GROUP_8 + 5, 1, $1); }
-    /* 为了照顾函数类型定义的一种语法糖，不得不这样写 */
-    | FuncType { $$ = $1; }
-    | ADTType { $$ = new_parent_node("Specifier", GROUP_8 + 7, 1, $1); }
-    ;
-
 /* Local Definitions */
 VarDef
     : Specifier DecList { $$ = new_parent_node("VarDef", GROUP_9 + 1, 2, $1, $2); }
@@ -267,7 +197,6 @@ VarDec
 /* Using Variables */
 VarUse
     : LOWERID { $$ = new_parent_node("VarUse", GROUP_9 + 8, 1, $1); }
-
 /* Expressions */
 Exp
     : Exp ASSIGNOP Exp {$$ = new_parent_node("Exp", GROUP_10 + 1, 2, $1, $3); }
@@ -295,4 +224,70 @@ Exp
     | INT { $$ = new_parent_node("Exp", GROUP_10 + 17, 1, $1); }
     | FLOAT { $$ = new_parent_node("Exp", GROUP_10 + 18, 1, $1); }
     | FuncBody { $$ = new_parent_node("Exp", GROUP_10 + 19, 1, $1); }
+    ;
+/* Specifiers */
+Specifier
+    : BUILDINTYPE { $$ = new_parent_node("Specifier", GROUP_8 + 1, 1, $1); }
+    | LET { $$ = new_parent_node("Specifier", GROUP_8 + 2, 1, $1); }
+    /* | TypeId { $$ = new_parent_node("Specifier", GROUP_8 + 3, 1, $1); } */
+    | ArrayType { $$ = new_parent_node("Specifier", GROUP_8 + 4, 1, $1); }
+    | ReferType { $$ = new_parent_node("Specifier", GROUP_8 + 5, 1, $1); }
+    /* 为了照顾函数类型定义的一种语法糖，不得不这样写 */
+    | FuncType { $$ = $1; }
+    | ADTType { $$ = new_parent_node("Specifier", GROUP_8 + 7, 1, $1); }
+    ;
+/* ADT */
+ADTDef
+    : ADTHeader ASSIGNOP ConstructorDec ConstructorDecList { $$ = new_parent_node("ADTDef", GROUP_7 + 2, 3, $1, $3, $4); }
+    ;
+ADTHeader
+    : DATA TypeId ADTParamList { $$ = new_parent_node("ADTHeader", GROUP_7 + 3, 2, $2, $3); }
+    ;
+ADTParamList
+    : ADTParam ADTParamList { $$ = new_parent_node("ADTParamList", GROUP_7 + 4, 2, $1, $2); }
+    | /* empty */ { $$ = new_parent_node("ADTParamList", GROUP_7 + 5, 0); }
+    ;
+ADTParam
+    : LOWERID { $$ = new_parent_node("ADTParam", GROUP_7 + 6, 1, $1); }
+    ;
+ConstructorDecList
+    : SINGLEOR ConstructorDec ConstructorDecList { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 7, 2, $2, $3); }
+    | /* empty */ { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 8, 0); }
+    ;
+ConstructorDec
+    : ConstructorId ConstructorUseTypeList { $$ = new_parent_node("ConstructorDec", GROUP_7 + 9, 2, $1, $2); }
+    ;
+ConstructorId
+    : UPPERID { $$ = new_parent_node("ConstructorId", GROUP_7 + 10, 1, $1); }
+    ;
+ConstructorUseTypeList
+    : Specifier ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 11, 2, $1, $2); }
+    | ADTParam ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 12, 2, $1, $2); }
+    | /* empty */ { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 13, 0); }
+    ;
+TypeId
+    : UPPERID { $$ = new_parent_node("TypeId", GROUP_7 + 14, 1, $1); }
+    ;
+/* ADT类型的使用 */
+ADTType
+    : TypeId LB SpecifierList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
+    ;
+SpecifierList
+    : Specifier SpecifierList { $$ = new_parent_node("SpecifierList", GROUP_7 + 16, 2, $1, $2); }
+    | /* empty */ { $$ = new_parent_node("SpecifierList", GROUP_7 + 17, 0); }
+    ;
+/* pattern matching */
+PatternMatching
+    : LET LP ConstructorId PatternMatchingParamList RP ASSIGNOP VarDec {
+        $$ = new_parent_node("PatternMatching", GROUP_7 + 15, 3, $3, $4, $7);
+    }
+    ;
+PatternMatchingParamList
+    : LOWERID PatternMatchingParamList {
+        $$ = new_parent_node("PatternMatchingParamList", GROUP_7 + 16, 2, $1, $2);
+    }
+    | PLACEHOLDER PatternMatchingParamList {
+        $$ = new_parent_node("PatternMatchingParamList", GROUP_7 + 17, 2, $1, $2);
+    }
+    | /* empty */ { $$ = new_parent_node("PatternMatchingParamList", GROUP_7 + 18, 0); }
     ;
