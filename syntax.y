@@ -150,17 +150,13 @@ Args
     ;
 /* Local Definitions */
 VarDef
-    : Specifier DecList { $$ = new_parent_node("VarDef", GROUP_9 + 1, 2, $1, $2); }
-    /* 模式匹配也可看成是一种特殊的变量定义 */
+    : LET VarDec ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 1, 3, $1, $2, $3); }
+    | LET VarDec COLON Specifier ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 2, 4, $1, $2, $4, $6); }
+    | VAR VarDec { $$ = new_parent_node("VarDef", GROUP_9 + 3, 2, $1, $2); }
+    | VAR VarDec COLON Specifier { $$ = new_parent_node("VarDef", GROUP_9 + 4, 3, $1, $2, $4); }
+    | VAR VarDec ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 5, 3, $1, $2, $4); }
+    | VAR VarDec COLON Specifier ASSIGNOP Exp { $$ = new_parent_node("VarDec", GROUP_9 + 6, 4, $1, $2, $4, $6); }
     | PatternMatching { $$ = new_parent_node("VarDef", GROUP_9 + 2, 1, $1); }
-    ;
-DecList
-    : Dec { $$ = new_parent_node("DecList", GROUP_9 + 3, 1, $1); }
-    | Dec COMMA DecList { $$ = new_parent_node("DecList", GROUP_9 + 4, 2, $1, $3); }
-    ;
-Dec
-    : VarDec { $$ = new_parent_node("Dec", GROUP_9 + 5, 1, $1); }
-    | VarDec ASSIGNOP Exp { $$ = new_parent_node("Dec", GROUP_9 + 6, 2, $1, $3); }
     ;
 /* Declarators */
 VarDec
@@ -214,7 +210,7 @@ TypeParamList
     ;
 
 TypeParam
-    : UPPERID { $$ = new_parent_node("TypeParam", GROUP_11 + 7, 1, $1); }
+    : UPPERID { $$ = new_parent_node("TypeParam", GROUP_11 + 6, 1, $1); }
     ;
 
 TypeClassList
@@ -329,5 +325,9 @@ Test
 	$$ = new_parent_node("Test", 0, 1, $1);
 	print_child_node($$, 0);
     }
+    | VarDef SEMI Test {
+	$$ = new_parent_node("Test", 0, 1, $1);
+    }
+    | SEMI { $$ = NULL; }
     | /* empty */ { $$ = NULL; }
     ;

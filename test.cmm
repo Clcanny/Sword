@@ -1,7 +1,7 @@
-[]
+let a = 1
+let b: Int = 1
+var c
+var d: Int
+var e = 1
+var f: Int = 1
 [A]
-[A, B]
-[A, B, C]
-[A: TypeClassA, B: TypeClassB]
-[A: TypeClassA TypeClassB, B]
-[A, B: TypeClassA TypeClassB TypeClassC]
