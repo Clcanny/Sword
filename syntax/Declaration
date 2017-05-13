@@ -28,17 +28,19 @@
     void *type_node;
 }
 
-%token <type_node> DEFER REFER COLON VAR
-%token <type_node> SINGLEOR DATA PLACEHOLDER
-%token <type_node> LOWERID UPPERID
-%token <type_node> FUNC DEDUCT
-%token <type_node> LET
-%token <type_node> ASSIGNOP RELOP AND OR NOT
-%token <type_node> PLUS MINUS STAR DIV
-%token <type_node> BUILDINTYPE STRUCT INT FLOAT
-%token <type_node> IF ELSE WHILE RETURN
-%token <type_node> SEMI COMMA DOT
+%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER
+%token <type_node> DATA
+%token <type_node> DEDUCT FUNC
+%token <type_node> REFER
+%token <type_node> ASSIGNOP
+%token <type_node> RELOP
+%token <type_node> PLUS MINUS STAR DIV 
+%token <type_node> AND OR NOT DOT
+%token <type_node> LET VAR BUILDINTYPE
 %token <type_node> LP RP LB RB LC RC
+%token <type_node> RETURN IF ELSE WHILE
+%token <type_node> INT FLOAT
+%token <type_node> LOWERID UPPERID
 
 %type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
