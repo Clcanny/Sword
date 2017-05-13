@@ -206,7 +206,7 @@ TypeParams
 TypeParamList
     : COMMA TypeParam COLON TypeClassList TypeParamList { $$ = new_parent_node("TypeParamList", GROUP_11 + 4, 3, $2, $4, $5); }
     | COMMA TypeParam TypeParamList { $$ = new_parent_node("TypeParamList", GROUP_11 + 5, 2, $2, $3); }
-    | /* empty */ { $$ = new_parent_node("TypeParamList", GROUP_11 + 6, 0); }
+    | /* empty */ { $$ = NULL; }
     ;
 
 TypeParam
@@ -215,7 +215,7 @@ TypeParam
 
 TypeClassList
     : TypeClassId TypeClassList { $$ = new_parent_node("TypeClassList", GROUP_11 + 7, 2, $1, $2); }
-    | /* empty */ { $$ = new_parent_node("TypeClassList", GROUP_11 + 8, 0); }
+    | /* empty */ { $$ = NULL; }
     ;
 /* Expressions */
 Exp
@@ -322,8 +322,8 @@ ReferType
     ;
 Test
     : TypeParams SEMI Test {
-	$$ = new_parent_node("Test", 0, 2, $1, $2);
+	$$ = new_parent_node("Test", 0, 1, $1);
 	print_child_node($$, 0);
     }
-    | SEMI { $$ = new_parent_node("Test", 0, 0); }
+    | /* empty */ { $$ = NULL; }
     ;
