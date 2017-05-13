@@ -28,7 +28,7 @@
     void *type_node;
 }
 
-%token <type_node> DEFER REFER
+%token <type_node> DEFER REFER COLON VAR
 %token <type_node> SINGLEOR DATA PLACEHOLDER
 %token <type_node> LOWERID UPPERID
 %token <type_node> FUNC DEDUCT
