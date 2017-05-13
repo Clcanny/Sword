@@ -17,6 +17,12 @@
     #define GROUP_8 800
     #define GROUP_9 900
     #define GROUP_10 1000
+    #define GROUP_11 1100
+    #define GROUP_12 1200
+    #define GROUP_13 1300
+    #define GROUP_14 1400
+    #define GROUP_15 1500
+    #define GROUP_16 1600
 
     int has_error = 0;
     void yyerror(const char *msg);
@@ -190,24 +196,24 @@ DSList
     | /* empty */ { $$ = new_parent_node("DSList", GROUP_2 + 2, 0); }
     ;
 TypeParams
-    : LB RB
-    | LB TypeParam COLON TypeClassList TypeParamList RB
-    | LB TypeParam TypeParamList RB
+    : LB RB { $$ = new_parent_node("TypeParams", GROUP_11 + 1, 0); }
+    | LB TypeParam COLON TypeClassList TypeParamList RB { $$ = new_parent_node("TypeParams", GROUP_11 + 2, 3, $2, $4, $5); }
+    | LB TypeParam TypeParamList RB { $$ = new_parent_node("TypeParams", GROUP_11 + 3, 2, $2, $3); }
     ;
 
 TypeParamList
-    : COMMA TypeParam COLON TypeClassList TypeParamList
-    | COMMA TypeParam TypeParamList
-    | /* empty */
+    : COMMA TypeParam COLON TypeClassList TypeParamList { $$ = new_parent_node("TypeParamList", GROUP_11 + 4, 3, $2, $4, $5); }
+    | COMMA TypeParam TypeParamList { $$ = new_parent_node("TypeParamList", GROUP_11 + 5, 2, $2, $3); }
+    | /* empty */ { $$ = new_parent_node("TypeParamList", GROUP_11 + 6, 0); }
     ;
 
 TypeParam
-    : UPPERID
+    : UPPERID { $$ = new_parent_node("TypeParamList", GROUP_11 + 7, 1, $1); }
     ;
 
 TypeClassList
-    : TypeClassId TypeClassList
-    | /* empty */
+    : TypeClassId TypeClassList { $$ = new_parent_node("TypeClassList", GROUP_11 + 7, 2, $1, $2); }
+    | /* empty */ { $$ = new_parent_node("TypeClassList", GROUP_11 + 8, 0); }
     ;
 /* Expressions */
 Exp

@@ -7,14 +7,14 @@ TypeParams
 TypeParamList
     : COMMA TypeParam COLON TypeClassList TypeParamList { $$ = new_parent_node("TypeParamList", GROUP_11 + 4, 3, $2, $4, $5); }
     | COMMA TypeParam TypeParamList { $$ = new_parent_node("TypeParamList", GROUP_11 + 5, 2, $2, $3); }
-    | /* empty */ { $$ = new_parent_node("TypePara") }
+    | /* empty */ { $$ = new_parent_node("TypeParamList", GROUP_11 + 6, 0); }
     ;
 
 TypeParam
-    : UPPERID
+    : UPPERID { $$ = new_parent_node("TypeParamList", GROUP_11 + 7, 1, $1); }
     ;
 
 TypeClassList
-    : TypeClassId TypeClassList
-    | /* empty */
+    : TypeClassId TypeClassList { $$ = new_parent_node("TypeClassList", GROUP_11 + 7, 2, $1, $2); }
+    | /* empty */ { $$ = new_parent_node("TypeClassList", GROUP_11 + 8, 0); }
     ;
