@@ -1,1 +1,6 @@
-Int a
+[]
+[A]
+[A, B]
+[A: TypeClassA, B: TypeClassB]
+[A: TypeClassA TypeClassB, B]
+

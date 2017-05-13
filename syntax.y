@@ -48,7 +48,7 @@
 %token <type_node> INT FLOAT
 %token <type_node> LOWERID UPPERID
 
-%type <type_node> TypeParams TypeParamList TypeParam
+%type <type_node> TypeParams TypeParamList TypeParam Test
 %type <type_node> TypeClassList TypeClassId
 %type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
@@ -81,6 +81,8 @@
 %left STAR DIV
 %right NOT
 %left LP RP LB RB DOT
+
+%start Test
 
 %%
 /* Statements */
@@ -317,4 +319,11 @@ PatternMatchingParamList
 /* 指针 */
 ReferType
     : REFER LP Specifier RP { $$ = new_parent_node("ReferType", GROUP_6 + 1, 1, $3); }
+    ;
+Test
+    : TypeParams SEMI Test {
+	$$ = new_parent_node("Test", 0, 2, $1, $2);
+	print_child_node($$, 0);
+    }
+    | SEMI { $$ = new_parent_node("Test", 0, 0); }
     ;
