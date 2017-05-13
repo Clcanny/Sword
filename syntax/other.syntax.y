@@ -1,77 +1,3 @@
-%locations
-%define parse.error verbose
-%{
-    #include "syntax_tree.h"
-    #include "SDTAction.h"
-    #include "symbol_table.h"
-    #include "DebugMacro.h"
-    #include "Pointer.h"
-
-    #define GROUP_1 100
-    #define GROUP_2 200
-    #define GROUP_3 300
-    #define GROUP_4 400
-    #define GROUP_5 500
-    #define GROUP_6 600
-    #define GROUP_7 700
-    #define GROUP_8 800
-    #define GROUP_9 900
-    #define GROUP_10 1000
-
-    int has_error = 0;
-    void yyerror(const char *msg);
-    void yyerror_lineno(const char *msg, int lineno);
-%}
-
-%union {
-    int type_int;
-    void *type_node;
-}
-
-%token <type_node> DEFER REFER
-%token <type_node> SINGLEOR DATA PLACEHOLDER
-%token <type_node> LOWERID UPPERID
-%token <type_node> FUNC DEDUCT
-%token <type_node> LET
-%token <type_node> ASSIGNOP RELOP AND OR NOT
-%token <type_node> PLUS MINUS STAR DIV
-%token <type_node> BUILDINTYPE STRUCT INT FLOAT
-%token <type_node> IF ELSE WHILE RETURN
-%token <type_node> SEMI COMMA DOT
-%token <type_node> LP RP LB RB LC RC
-
-%type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
-%type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
-%type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
-%type <type_node> FuncType FuncParamType FuncBody
-%type <type_node> DSList
-%type <type_node> Program
-%type <type_node> Specifier
-%type <type_node> VarDec FuncDec VarList ParamDec VarUse
-%type <type_node> CompSt Stmt
-%type <type_node> VarDef DecList Dec
-%type <type_node> Exp Args
-
-%nonassoc LOWER_THAN_ELSE
-%nonassoc ELSE
-
-%nonassoc LOWER_THAN_DEDUCT
-%nonassoc DEDUCT
-
-%nonassoc LOWER_THAN_SEMI
-%nonassoc SEMI
-
-%nonassoc LOWER_THAN_ASSIGNOP
-%right ASSIGNOP
-
-%left OR
-%left AND
-%left RELOP
-%left PLUS MINUS
-%left STAR DIV
-%right NOT
-%left LP RP LB RB DOT
-
 %%
 /* High-level Definitions */
 Program
@@ -118,6 +44,54 @@ Stmt
     ;
 CompSt
     : LC DSList RC { $$ = new_parent_node("Compst", GROUP_3 + 10, 1, $2); }
+    ;
+
+/* Function */
+/* 函数类型 */
+FuncParamType
+    : Specifier DEDUCT FuncParamType { 
+        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
+        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
+    }
+    | Specifier { $$ = $1; }
+    ;
+FuncType
+    : FUNC LP FuncParamType RP { 
+        if (strcmp(((AST_node *)(((AST_node *)$3)->first_child))->str, "FuncType"))
+        {
+            $$ = new_parent_node("FuncType", GROUP_4 + 2, 1, $3);
+            $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
+        }
+        else 
+        {
+            $$ = $3;
+        }
+    }
+    ;
+/* 函数体的定义 */
+FuncDec
+    : LP VarList RP DEDUCT Specifier { $$ = new_parent_node("FuncDec", GROUP_4 + 3, 2, $2, $5); }
+    | LP RP DEDUCT Specifier { $$ = new_parent_node("FuncDec", GROUP_4 + 4, 1, $4); }
+    ;
+VarList
+    : ParamDec COMMA VarList { $$ = new_parent_node("VarList", GROUP_4 + 5, 2, $1, $3); }
+    | ParamDec { $$ = new_parent_node("VarList", GROUP_4 + 6, 1, $1); }
+    ;
+ParamDec
+    : Specifier VarDec { $$ = new_parent_node("ParamDec", GROUP_4 + 7, 2, $1, $2); }
+    ;
+FuncBody
+    : FuncDec CompSt { $$ = new_parent_node("FuncBody", GROUP_4 + 8, 2, $1, $2); }
+    ;
+/* 函数调用 */
+FuncCall
+    : Exp LP RP { $$ = new_parent_node("FuncCall", GROUP_4 + 9, 1, $1); }
+    | Exp LP Args RP { $$ = new_parent_node("FuncCall", GROUP_4 + 10, 2, $1, $3); }
+    ;
+Args
+    : Exp COMMA Args { $$ = new_parent_node("Args", GROUP_4 + 11, 2, $1, $3); }
+    | PLACEHOLDER COMMA Args { $$ = new_parent_node("Args", GROUP_4 + 12, 2, $1, $3); }
+    | Exp { $$ = new_parent_node("Args", GROUP_4 + 13, 0); }
     ;
 
 /* Array */
