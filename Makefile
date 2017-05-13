@@ -9,10 +9,10 @@ LDFLAGS = -fprofile-arcs -ftest-coverage
 # 编译目标：src目录下的所有.c文件
 CFILES = $(shell find ./ -name "*.c")
 OBJS = $(CFILES:.c=.o)
-LFILE = $(shell find ./ -name "*.l")
-YFILE = $(shell find ./ -name "*.y")
-LFC = $(shell find ./ -name "*.l" | sed s/[^/]*\\.l/lex.yy.c/)
-YFC = $(shell find ./ -name "*.y" | sed s/[^/]*\\.y/syntax.tab.c/)
+LFILE = $(shell find ./ -maxdepth 1 -name "*.l")
+YFILE = $(shell find ./ -maxdepth 1 -name "*.y")
+LFC = $(shell find ./ -maxdepth 1 -name "*.l" | sed s/[^/]*\\.l/lex.yy.c/)
+YFC = $(shell find ./ -maxdepth 1 -name "*.y" | sed s/[^/]*\\.y/syntax.tab.c/)
 LFO = $(LFC:.c=.o)
 YFO = $(YFC:.c=.o)
 
