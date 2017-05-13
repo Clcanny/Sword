@@ -1,15 +1,17 @@
 #ifndef SDTACTION_H
 #define SDTACTION_H
 
-#include "syntax_tree.h"
-#include "symbol_table.h"
 #include <malloc.h>
 #include <inttypes.h>
+
+#include "syntax_tree.h"
+#include "symbol_table.h"
 #include "Pointer.h"
 
 #include "DebugMacro.h"
 #include "AssertMacro.h"
 #include "DefineMacro.h"
+#include "HelperMacro.h"
 
 #include "3.h"
 #include "4.h"
@@ -17,32 +19,6 @@
 #include "8.h"
 #include "9.h"
 #include "10.h"
-
-void allocPointer();
-void deallocPointer();
-void noallocPointer();
-
-#define D_type_info TypeInfo *type_info = (TypeInfo *)malloc(sizeof(TypeInfo));
-#define D_parent_info TypeInfo *parent_info = (TypeInfo *)parent->other_info;
-#define D_child_info \
-    TypeInfo *child_info = (TypeInfo *) \
-    child->other_info;
-#define D_child_1_info \
-    TypeInfo *child_1_info = (TypeInfo *) \
-    parent->first_child->other_info;
-#define D_child_2_info \
-    TypeInfo *child_2_info = (TypeInfo *) \
-    parent->first_child->next_brother->other_info;
-#define D_child_3_info \
-    TypeInfo *child_3_info = (TypeInfo *) \
-    parent->first_child->next_brother->next_brother->other_info;
-
-#define D_child_1 \
-    AST_node *child_1 = parent->first_child;
-#define D_child_2 \
-    AST_node *child_2 = parent->first_child->next_brother;
-#define D_child_3 \
-    AST_node *child_3 = parent->first_child->next_brother->next_brother;
 
 /* 第一个参数是父亲节点，第二个参数是需要准备继承属性的儿子节点 */
 /* 第三个参数是需要准备继承属性的节点的编号 */
