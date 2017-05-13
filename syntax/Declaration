@@ -17,6 +17,12 @@
     #define GROUP_8 800
     #define GROUP_9 900
     #define GROUP_10 1000
+    #define GROUP_11 1100
+    #define GROUP_12 1200
+    #define GROUP_13 1300
+    #define GROUP_14 1400
+    #define GROUP_15 1500
+    #define GROUP_16 1600
 
     int has_error = 0;
     void yyerror(const char *msg);
