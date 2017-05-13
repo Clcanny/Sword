@@ -36,6 +36,7 @@ syntax-c: $(YFILE)
 
 ACTIONFILES = $(shell find ./ -name "[1-9]*.c")
 SUBDIRS = $(shell find ./ -maxdepth 1 -type d -name "Test*")
+ALLSD = $(shell find ./ -maxdepth 1 -type d)
 
 coverageAbstract:
 	make
@@ -57,16 +58,14 @@ debug:
 
 clean:
 	- @ for subdir in $(SUBDIRS); do \
-	    	echo "Clean in $$subdir"; \
 	    	(cd $$subdir && make clean); \
 	  done;
-	- @ rm -f parser lex.yy.c syntax.tab.c syntax.tab.h syntax.output
-	- @ rm *.gcno
-	- @ rm *.gcda
-	- @ rm *.output
-	- @ rm -f $(OBJS) $(OBJS:.o=.d)
-	- @ rm -f $(LFC) $(YFC) $(YFC:.c=.h)
-	- @ rm -f core
+	- @ for subdir in $(ALLSD); do \
+		(cd $$subdir && rm -f parser lex.yy.c syntax.tab.c syntax.tab.h syntax.output); \
+		(cd $$subdir && rm -f *.gcno *.gcda *.output); \
+		(cd $$subdir && rm -f $(OBJS) $(OBJS:.o=.d)); \
+		(cd $$subdir && rm -f $(LFC) $(YFC) $(YFC:.c=.h)); \
+	   done;
 
 fuck:
 	echo $(INC_DIR)
