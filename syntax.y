@@ -28,18 +28,22 @@
     void *type_node;
 }
 
-%token <type_node> DEFER REFER COLON VAR
-%token <type_node> SINGLEOR DATA PLACEHOLDER
-%token <type_node> LOWERID UPPERID
-%token <type_node> FUNC DEDUCT
-%token <type_node> LET
-%token <type_node> ASSIGNOP RELOP AND OR NOT
-%token <type_node> PLUS MINUS STAR DIV
-%token <type_node> BUILDINTYPE STRUCT INT FLOAT
-%token <type_node> IF ELSE WHILE RETURN
-%token <type_node> SEMI COMMA DOT
+%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER
+%token <type_node> DATA
+%token <type_node> DEDUCT FUNC
+%token <type_node> REFER
+%token <type_node> ASSIGNOP
+%token <type_node> RELOP
+%token <type_node> PLUS MINUS STAR DIV 
+%token <type_node> AND OR NOT DOT
+%token <type_node> LET VAR BUILDINTYPE
 %token <type_node> LP RP LB RB LC RC
+%token <type_node> RETURN IF ELSE WHILE
+%token <type_node> INT FLOAT
+%token <type_node> LOWERID UPPERID
 
+%type <type_node> TypeParams TypeParamList TypeParam
+%type <type_node> TypeClassList TypeClassId
 %type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
 %type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
@@ -197,6 +201,26 @@ VarDec
 /* Using Variables */
 VarUse
     : LOWERID { $$ = new_parent_node("VarUse", GROUP_9 + 8, 1, $1); }
+TypeParams
+    : LB RB
+    | LB TypeParam COLON TypeClassList TypeParamList RB
+    | LB TypeParam TypeParamList RB
+    ;
+
+TypeParamList
+    : COMMA TypeParam COLON TypeClassList TypeParamList
+    | COMMA TypeParam TypeParamList
+    | /* empty */
+    ;
+
+TypeParam
+    : UPPERID
+    ;
+
+TypeClassList
+    : TypeClassId TypeClassList
+    | /* empty */
+    ;
 /* Expressions */
 Exp
     : Exp ASSIGNOP Exp {$$ = new_parent_node("Exp", GROUP_10 + 1, 2, $1, $3); }
@@ -214,9 +238,6 @@ Exp
     | LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 11, 1, $2); }
     /* 函数调用 */
     | FuncCall { $$ = new_parent_node("Exp", GROUP_10 + 12, 1, $1); }
-    /* DEFER相关表达式 */
-    | REFER LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 13, 2, $1, $3); }
-    | DEFER LP Exp RP { $$ = new_parent_node("Exp", GROUP_10 + 14, 2, $1, $3); }
     /* 从ADT中取数据 */
     | Exp DOT INT { $$ = new_parent_node("Exp", GROUP_10 + 15, 2, $1, $3); }
     /* Exp building block */
@@ -224,6 +245,9 @@ Exp
     | INT { $$ = new_parent_node("Exp", GROUP_10 + 17, 1, $1); }
     | FLOAT { $$ = new_parent_node("Exp", GROUP_10 + 18, 1, $1); }
     | FuncBody { $$ = new_parent_node("Exp", GROUP_10 + 19, 1, $1); }
+    ;
+TypeClassId
+    : UPPERID
     ;
 /* Specifiers */
 Specifier
