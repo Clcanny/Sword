@@ -48,29 +48,6 @@
 %type <type_node> Program
 %type <type_node> Specifier
 %type <type_node> VarDec FuncDec VarList ParamDec VarUse
-%type <type_node> CompSt Stmt
-%type <type_node> VarDef DecList Dec
-%type <type_node> Exp Args
-
-%nonassoc LOWER_THAN_ELSE
-%nonassoc ELSE
-
-%nonassoc LOWER_THAN_DEDUCT
-%nonassoc DEDUCT
-
-%nonassoc LOWER_THAN_SEMI
-%nonassoc SEMI
-
-%nonassoc LOWER_THAN_ASSIGNOP
-%right ASSIGNOP
-
-%left OR
-%left AND
-%left RELOP
-%left PLUS MINUS
-%left STAR DIV
-%right NOT
-%left LP RP LB RB DOT
 
 %%
 /* High-level Definitions */
