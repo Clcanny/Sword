@@ -1,5 +1,7 @@
 []
 [A]
 [A, B]
+[A, B, C]
 [A: TypeClassA, B: TypeClassB]
 [A: TypeClassA TypeClassB, B]
+[A, B: TypeClassA TypeClassB TypeClassC]
