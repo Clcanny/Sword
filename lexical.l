@@ -49,7 +49,7 @@ ws [ \t]
     return COMMA;
 }
 ":" {
-    print_loc_line("COLON");
+    print_loc_info("COLON");
     yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "COLON");
     return COLON;
 }

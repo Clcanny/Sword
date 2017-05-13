@@ -3,7 +3,8 @@
 CC = gcc
 FLEX = flex
 BISON = bison
-CFLAGS = -std=c99 -ggdb -fprofile-arcs -ftest-coverage
+INC_DIR = $(shell find $(shell pwd) -maxdepth 1 -type d | sed -e 's/^/-I/')
+CFLAGS = -std=c99 -ggdb $(INC_DIR) -fprofile-arcs -ftest-coverage
 LDFLAGS = -fprofile-arcs -ftest-coverage
 
 # 编译目标：src目录下的所有.c文件
@@ -17,10 +18,10 @@ LFO = $(LFC:.c=.o)
 YFO = $(YFC:.c=.o)
 
 parser: clean syntax $(filter-out $(LFO),$(OBJS))
-	$(CC) -o parser $(filter-out $(LFO),$(OBJS)) $(LDFLAGS) -lfl -ly
+	$(CC) $(CFLAGS) -o parser $(filter-out $(LFO),$(OBJS)) $(LDFLAGS) -lfl -ly
 
 syntax: lexical syntax-c
-	$(CC) -c $(YFC) -o $(YFO)
+	$(CC) $(CFLAGS) -c $(YFC) -o $(YFO)
 
 lexical: $(LFILE)
 	$(FLEX) -o $(LFC) $(LFILE)
@@ -66,3 +67,6 @@ clean:
 	- @ rm -f $(OBJS) $(OBJS:.o=.d)
 	- @ rm -f $(LFC) $(YFC) $(YFC:.c=.h)
 	- @ rm -f core
+
+fuck:
+	echo $(INC_DIR)
