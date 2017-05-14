@@ -1,17 +1,17 @@
 class[E: Eq, C] Collection
 {
-    insert: Func(C -> E -> C) insert
-    member: Func(C -> E -> Bool) member
+    var insert: Func(C -> E -> C) insert
+    var member: Func(C -> E -> Bool) member
 }
 
 instance[] Collection List[Int] Int
 {
-    insert = flip (:)
-    member = flip elem
+    var insert = flip (:)
+    var member = flip elem
 }
 
 instance[E: Eq] Collection List[E] E
 {
-    insert = flip (:)
-    member = flip elem
+    var insert = flip (:)
+    var member = flip elem
 }

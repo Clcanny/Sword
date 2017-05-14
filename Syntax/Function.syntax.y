@@ -1,12 +1,5 @@
 /* Function */
 /* 函数类型 */
-FuncParamType
-    : Specifier DEDUCT FuncParamType { 
-        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
-        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
-    }
-    | Specifier { $$ = $1; }
-    ;
 FuncType
     : FUNC LP FuncParamType RP { 
         if (strcmp(((AST_node *)(((AST_node *)$3)->first_child))->str, "FuncType"))
@@ -20,21 +13,27 @@ FuncType
         }
     }
     ;
+FuncParamType
+    : Specifier DEDUCT FuncParamType { 
+        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
+        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
+    }
+    | Specifier { $$ = $1; }
+    ;
+
 /* 函数体的定义 */
 FuncDec
     : LP VarList RP DEDUCT Specifier { $$ = new_parent_node("FuncDec", GROUP_4 + 3, 2, $2, $5); }
     | LP RP DEDUCT Specifier { $$ = new_parent_node("FuncDec", GROUP_4 + 4, 1, $4); }
     ;
 VarList
-    : ParamDec COMMA VarList { $$ = new_parent_node("VarList", GROUP_4 + 5, 2, $1, $3); }
-    | ParamDec { $$ = new_parent_node("VarList", GROUP_4 + 6, 1, $1); }
-    ;
-ParamDec
-    : Specifier VarDec { $$ = new_parent_node("ParamDec", GROUP_4 + 7, 2, $1, $2); }
+    : VarDef COMMA VarList { $$ = new_parent_node("VarList", GROUP_4 + 5, 2, $1, $3); }
+    | VarDef { $$ = new_parent_node("VarList", GROUP_4 + 6, 1, $1); }
     ;
 FuncBody
     : FuncDec CompSt { $$ = new_parent_node("FuncBody", GROUP_4 + 8, 2, $1, $2); }
     ;
+
 /* 函数调用 */
 FuncCall
     : Exp LP RP { $$ = new_parent_node("FuncCall", GROUP_4 + 9, 1, $1); }

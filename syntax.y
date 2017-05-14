@@ -34,7 +34,7 @@
     void *type_node;
 }
 
-%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER
+%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER CLASS INSTANCE
 %token <type_node> DATA
 %token <type_node> DEDUCT FUNC
 %token <type_node> REFER
@@ -49,7 +49,7 @@
 %token <type_node> LOWERID UPPERID
 
 %type <type_node> TypeParams TypeParamList TypeParam Test
-%type <type_node> TypeClassList TypeClassId
+%type <type_node> TypeClassList TypeClassId TypeClassDef VarDefs
 %type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
 %type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
@@ -60,7 +60,7 @@
 %type <type_node> VarDec FuncDec VarList ParamDec VarUse
 %type <type_node> CompSt Stmt
 %type <type_node> VarDef DecList Dec
-%type <type_node> Exp Args
+%type <type_node> Exp Args InstanceDef
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE
@@ -103,13 +103,6 @@ CompSt
     ;
 /* Function */
 /* 函数类型 */
-FuncParamType
-    : Specifier DEDUCT FuncParamType { 
-        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
-        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
-    }
-    | Specifier { $$ = $1; }
-    ;
 FuncType
     : FUNC LP FuncParamType RP { 
         if (strcmp(((AST_node *)(((AST_node *)$3)->first_child))->str, "FuncType"))
@@ -123,21 +116,27 @@ FuncType
         }
     }
     ;
+FuncParamType
+    : Specifier DEDUCT FuncParamType { 
+        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
+        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
+    }
+    | Specifier { $$ = $1; }
+    ;
+
 /* 函数体的定义 */
 FuncDec
     : LP VarList RP DEDUCT Specifier { $$ = new_parent_node("FuncDec", GROUP_4 + 3, 2, $2, $5); }
     | LP RP DEDUCT Specifier { $$ = new_parent_node("FuncDec", GROUP_4 + 4, 1, $4); }
     ;
 VarList
-    : ParamDec COMMA VarList { $$ = new_parent_node("VarList", GROUP_4 + 5, 2, $1, $3); }
-    | ParamDec { $$ = new_parent_node("VarList", GROUP_4 + 6, 1, $1); }
-    ;
-ParamDec
-    : Specifier VarDec { $$ = new_parent_node("ParamDec", GROUP_4 + 7, 2, $1, $2); }
+    : VarDef COMMA VarList { $$ = new_parent_node("VarList", GROUP_4 + 5, 2, $1, $3); }
+    | VarDef { $$ = new_parent_node("VarList", GROUP_4 + 6, 1, $1); }
     ;
 FuncBody
     : FuncDec CompSt { $$ = new_parent_node("FuncBody", GROUP_4 + 8, 2, $1, $2); }
     ;
+
 /* 函数调用 */
 FuncCall
     : Exp LP RP { $$ = new_parent_node("FuncCall", GROUP_4 + 9, 1, $1); }
@@ -150,7 +149,9 @@ Args
     ;
 /* Local Definitions */
 VarDef
-    : LET VarDec ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 1, 3, $1, $2, $3); }
+    : LET VarDec { $$ = new_parent_node("VarDef", GROUP_9 + 3, 2, $1, $2); }
+    | LET VarDec COLON Specifier { $$ = new_parent_node("VarDef", GROUP_9 + 4, 3, $1, $2, $4); }
+    | LET VarDec ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 1, 3, $1, $2, $3); }
     | LET VarDec COLON Specifier ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 2, 4, $1, $2, $4, $6); }
     | VAR VarDec { $$ = new_parent_node("VarDef", GROUP_9 + 3, 2, $1, $2); }
     | VAR VarDec COLON Specifier { $$ = new_parent_node("VarDef", GROUP_9 + 4, 3, $1, $2, $4); }
@@ -242,8 +243,26 @@ Exp
     | FLOAT { $$ = new_parent_node("Exp", GROUP_10 + 18, 1, $1); }
     | FuncBody { $$ = new_parent_node("Exp", GROUP_10 + 19, 1, $1); }
     ;
+TypeClassDef
+    : CLASS TypeParams TypeClassId LC VarDefs RC { 
+	$$ = new_parent_node("TypeClassDef", GROUP_12 + 1, 3, $2, $3, $5); 
+    }
+    ;
+
+VarDefs
+    : VarDef VarDefs { $$ = new_parent_node("VarDefs", GROUP_12 + 2, 2, $1, $2); }
+    | SEMI VarDefs { $$ = $2; }
+    | /* empty */ { $$ = NULL; }
+    ;
+
 TypeClassId
-    : UPPERID
+    : UPPERID { $$ = new_parent_node("TypeClassId", GROUP_12 + 3, 1, $1); }
+    ;
+
+InstanceDef
+    : INSTANCE TypeParams TypeClassId TypeParams LC VarDefs RC {
+	$$ = new_parent_node("InstanceDef", GROUP_12 + 4, 4, $2, $3, $4, $6);
+    }
     ;
 /* Array */
 ArrayType
@@ -327,6 +346,19 @@ Test
     }
     | VarDef SEMI Test {
 	$$ = new_parent_node("Test", 0, 1, $1);
+	print_child_node($$, 0);
+    }
+    | TypeClassDef SEMI Test {
+	$$ = new_parent_node("Test", 0, 1, $1);
+	print_child_node($$, 0);
+    }
+    | FuncType SEMI Test {
+	$$ = new_parent_node("Test", 0, 1, $1);
+	print_child_node($$, 0);
+    }
+    | FuncDec SEMI Test {
+	$$ = new_parent_node("Test", 0, 1, $1);
+	print_child_node($$, 0);
     }
     | SEMI { $$ = NULL; }
     | /* empty */ { $$ = NULL; }

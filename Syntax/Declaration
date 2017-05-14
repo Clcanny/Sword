@@ -34,7 +34,7 @@
     void *type_node;
 }
 
-%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER
+%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER CLASS INSTANCE
 %token <type_node> DATA
 %token <type_node> DEDUCT FUNC
 %token <type_node> REFER
@@ -49,7 +49,7 @@
 %token <type_node> LOWERID UPPERID
 
 %type <type_node> TypeParams TypeParamList TypeParam Test
-%type <type_node> TypeClassList TypeClassId
+%type <type_node> TypeClassList TypeClassId TypeClassDef VarDefs
 %type <type_node> ArrayType ReferType FuncCall ADTType SpecifierList
 %type <type_node> ADTHeader ADTParamList ADTParam PatternMatching PatternMatchingParamList
 %type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
@@ -60,7 +60,7 @@
 %type <type_node> VarDec FuncDec VarList ParamDec VarUse
 %type <type_node> CompSt Stmt
 %type <type_node> VarDef DecList Dec
-%type <type_node> Exp Args
+%type <type_node> Exp Args InstanceDef
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE

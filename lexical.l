@@ -69,13 +69,23 @@ data {
     yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "DATA");
     return DATA;
 }
+class {
+    print_loc_info("CLASS");
+    yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "CLASS");
+    return CLASS;
+}
+instance {
+    print_loc_info("INSTANCE");
+    yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "INSTANCE");
+    return INSTANCE;
+}
 
 "->" {
     print_loc_info("DEDUCT");
     yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "DEDUCT");
     return DEDUCT;
 }
-Func {
+fn {
     print_loc_info("FUNC");
     yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "FUNC");
     return FUNC;

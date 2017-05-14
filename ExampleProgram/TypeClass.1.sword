@@ -1,4 +1,4 @@
 class[A] Eq
 {
-    equal: Func(A -> A -> Bool)
+    var equal: Func(A -> A -> Bool)
 }

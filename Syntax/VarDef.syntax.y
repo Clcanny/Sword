@@ -1,6 +1,8 @@
 /* Local Definitions */
 VarDef
-    : LET VarDec ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 1, 3, $1, $2, $3); }
+    : LET VarDec { $$ = new_parent_node("VarDef", GROUP_9 + 3, 2, $1, $2); }
+    | LET VarDec COLON Specifier { $$ = new_parent_node("VarDef", GROUP_9 + 4, 3, $1, $2, $4); }
+    | LET VarDec ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 1, 3, $1, $2, $3); }
     | LET VarDec COLON Specifier ASSIGNOP Exp { $$ = new_parent_node("VarDef", GROUP_9 + 2, 4, $1, $2, $4, $6); }
     | VAR VarDec { $$ = new_parent_node("VarDef", GROUP_9 + 3, 2, $1, $2); }
     | VAR VarDec COLON Specifier { $$ = new_parent_node("VarDef", GROUP_9 + 4, 3, $1, $2, $4); }

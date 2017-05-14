@@ -30,6 +30,7 @@ ConstructorUseTypeList
 TypeId
     : UPPERID { $$ = new_parent_node("TypeId", GROUP_7 + 14, 1, $1); }
     ;
+
 /* ADT类型的使用 */
 ADTType
     : TypeId LB SpecifierList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
@@ -38,6 +39,7 @@ SpecifierList
     : Specifier SpecifierList { $$ = new_parent_node("SpecifierList", GROUP_7 + 16, 2, $1, $2); }
     | /* empty */ { $$ = new_parent_node("SpecifierList", GROUP_7 + 17, 0); }
     ;
+
 /* pattern matching */
 PatternMatching
     : LET LP ConstructorId PatternMatchingParamList RP ASSIGNOP VarDec {
