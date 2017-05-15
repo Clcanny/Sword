@@ -65,3 +65,5 @@ writeFieldOf()
 
 增加TypeClass文法
 1个时间单位
+
+范型函数的范型只记录在符号表里
