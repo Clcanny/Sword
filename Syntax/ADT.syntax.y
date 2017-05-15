@@ -26,17 +26,17 @@ ConstructorUseTypeList
 
 /* ADTType */
 ADTType
-    : TypeId LB ADTTypeUseList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
+    : TypeId LB ADTTypeUseTypeList RB { $$ = new_parent_node("ADTType", GROUP_7 + 15, 2, $1, $3); }
     ;
-ADTTypeUseList
-    : Specifier ADTTypeUseList { $$ = new_parent_node("ADTTypeUseList", GROUP_7 + 16, 2, $1, $2); }
-    | PLACEHOLDER ADTTypeUseList { $$ = new_parent_node("ADTTypeUseList", GROUP_7 + 17, 1, $2); }
-    | /* empty */ { $$ = new_parent_node("ADTTypeUseList", GROUP_7 + 17, 0); }
+ADTTypeUseTypeList
+    : Specifier ADTTypeUseTypeList { $$ = new_parent_node("ADTTypeUseTypeList", GROUP_7 + 16, 2, $1, $2); }
+    | PLACEHOLDER ADTTypeUseTypeList { $$ = new_parent_node("ADTTypeUseTypeList", GROUP_7 + 17, 1, $2); }
+    | /* empty */ { $$ = new_parent_node("ADTTypeUseTypeList", GROUP_7 + 17, 0); }
     ;
 
-/* pattern matching */
+/* PatternMatching */
 PatternMatching
-    : LET LP ConstructorId PatternMatchingParamList RP ASSIGNOP VarDec {
+    : LET LP ConstructorId PatternMatchingParamList RP ASSIGNOP Exp {
         $$ = new_parent_node("PatternMatching", GROUP_7 + 15, 3, $3, $4, $7);
     }
     ;

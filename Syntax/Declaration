@@ -50,7 +50,7 @@
 
 %type <type_node> TypeParams TypeParamList TypeParam Test
 %type <type_node> TypeClassList TypeClassId TypeClassDef VarDefs
-%type <type_node> ArrayType ReferType FuncCall ADTType ADTTypeUseList
+%type <type_node> ArrayType ReferType FuncCall ADTType ADTTypeUseTypeList
 %type <type_node> ADTHeader ADTParamList PatternMatching PatternMatchingParamList
 %type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
 %type <type_node> FuncType FuncParamType FuncBody

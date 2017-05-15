@@ -1,2 +1,2 @@
 data[A] Maybe = Just A | Nothing
-let a : Maybe[Int] =  Just 1
+/* let a : Maybe[Int] =  Just 1 */
