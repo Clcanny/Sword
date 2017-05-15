@@ -48,7 +48,7 @@
 %token <type_node> INT FLOAT
 %token <type_node> LOWERID UPPERID
 
-%type <type_node> TypeParams TypeParamList TypeParam Test
+%type <type_node> TypeParams TypeParamList TypeParam Test TypeArgs
 %type <type_node> TypeClassList TypeClassId TypeClassDef VarDefs
 %type <type_node> ArrayType ReferType FuncCall ADTType ADTTypeUseTypeList
 %type <type_node> ADTHeader ADTParamList PatternMatching PatternMatchingParamList
