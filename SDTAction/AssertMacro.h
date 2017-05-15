@@ -6,6 +6,9 @@
 #define AssertNull(info) \
     assert(info == NULL);
 
+#define AssertNoNull(info) \
+    assert(info != NULL);
+
 #define AssertNextInfoNull(info) \
     assert(info != NULL); \
     assert(((TypeInfo *)info)->nextInfo == NULL);

@@ -34,7 +34,7 @@ void registerIAction(int proNum, SDTIAction action);
 void registerSAction(int proNum, SDTSAction action);
 void traversalTreePerformAction(AST_node *parent);
 
-enum TypeKindEnum { BuildInType = 1, ArrayType, ReferType, FunctionType, AlgebraicDataType, GenericType };
+enum TypeKindEnum { BuildInType = 1, ArrayType, ReferType, FunctionType, AlgebraicDataType, GenericType, TypeParam };
 
 typedef struct
 {

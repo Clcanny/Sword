@@ -23,6 +23,48 @@
 NSD(402)
 D_child_1_info;
 AssertTypeInfo(child_1_info);
+AssertNoNull(getASTNode((char *)child_1_info->node));
+AssertNextInfoNull(child_1_info);
+if (parent->other_info == NULL)
+{
+    Alloc(parent->other_info, child_1_info);
+}
+else
+{
+    D_parent_info;
+    TypeInfo *tmp = parent_info;
+    while (tmp->nextInfo != NULL)
+    {
+	tmp = tmp->nextInfo;
+    }
+    tmp->nextInfo = child_1_info;
+}
+END
+
+NSD(403)
+D_child_1_info;
+AssertTypeInfo(child_1_info);
+AssertNextInfoNull(child_1_info);
+if (parent->other_info == NULL)
+{
+    Alloc(parent->other_info, child_1_info);
+}
+else
+{
+    D_parent_info;
+    TypeInfo *tmp = parent_info;
+    while (tmp->nextInfo != NULL)
+    {
+	tmp = tmp->nextInfo;
+    }
+    tmp->nextInfo = child_1_info;
+}
+END
+
+NSD(404)
+D_child_1_info;
+AssertTypeInfo(child_1_info);
+AssertNoNull(getASTNode((char *)child_1_info->node));
 AssertNextInfoNull(child_1_info);
 if (parent->other_info == NULL)
 {
