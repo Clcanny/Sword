@@ -1,21 +1,19 @@
-/* ADT */
+/* ADTDef */
 ADTDef
     : ADTHeader ASSIGNOP ConstructorDec ConstructorDecList { $$ = new_parent_node("ADTDef", GROUP_7 + 2, 3, $1, $3, $4); }
     ;
 ADTHeader
     : DATA TypeParams TypeId { $$ = new_parent_node("ADTHeader", GROUP_7 + 3, 2, $2, $3); }
     ;
-ADTParamList
-    : ADTParam ADTParamList { $$ = new_parent_node("ADTParamList", GROUP_7 + 4, 2, $1, $2); }
-    /* | /1* empty *1/ { $$ = new_parent_node("ADTParamList", GROUP_7 + 5, 0); } */
-    | /* empty */ { $$ = NULL; }
-    ;
-ADTParam
-    : UPPERID { $$ = new_parent_node("ADTParam", GROUP_7 + 6, 1, $1); }
-    ;
+/* ADTParamList */
+/*     : ADTParam ADTParamList { $$ = new_parent_node("ADTParamList", GROUP_7 + 4, 2, $1, $2); } */
+/*     | /1* empty *1/ { $$ = NULL; } */
+/*     ; */
+/* ADTParam */
+/*     : UPPERID { $$ = new_parent_node("ADTParam", GROUP_7 + 6, 1, $1); } */
+/*     ; */
 ConstructorDecList
     : SINGLEOR ConstructorDec ConstructorDecList { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 7, 2, $2, $3); }
-    /* | /1* empty *1/ { $$ = new_parent_node("ConstructorDecList", GROUP_7 + 8, 0); } */
     | /* empty */ { $$ = NULL; }
     ;
 ConstructorDec
@@ -26,7 +24,8 @@ ConstructorId
     ;
 ConstructorUseTypeList
     : Specifier ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 11, 2, $1, $2); }
-    | ADTParam ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 12, 2, $1, $2); }
+    /* | ADTParam ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 12, 2, $1, $2); } */
+    | TypeParam ConstructorUseTypeList { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 12, 2, $1, $2); }
     /* | /1* empty *1/ { $$ = new_parent_node("ConstructorUseTypeList", GROUP_7 + 13, 0); } */
     | /* empty */ { $$ = NULL; }
     ;
