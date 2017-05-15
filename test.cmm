@@ -1,1 +1,2 @@
 fn[A: TypeClassA TypeClassB, B](A -> B -> Int)
+fn[](Int)
