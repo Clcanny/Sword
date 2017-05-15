@@ -191,21 +191,21 @@ NSD(711)
     D_child_1_info;
     D_child_2_info;
     TypeInfo *info;
-    if (((FunctionNode *)child_2_info->node)->paramTypeInfo == NULL)
-    {
-        ((FunctionNode *)child_2_info->node)->paramTypeInfo = child_1_info;
-	info = child_2_info;
-    }
-    else
-    {
-        info = malloc(sizeof(TypeInfo));
-        info->typeKind = FunctionType;
-        FunctionNode *node = malloc(sizeof(FunctionNode));
-        node->paramTypeInfo = child_1_info;
-        node->returnTypeInfo = child_2_info;
-        info->node = node;
-        info->nextInfo = NULL;
-    }
+    /* if (((FunctionNode *)child_2_info->node)->paramTypeInfo == NULL) */
+    /* { */
+    /*     ((FunctionNode *)child_2_info->node)->paramTypeInfo = child_1_info; */
+	/* info = child_2_info; */
+    /* } */
+    /* else */
+    /* { */
+    /*     info = malloc(sizeof(TypeInfo)); */
+    /*     info->typeKind = FunctionType; */
+    /*     FunctionNode *node = malloc(sizeof(FunctionNode)); */
+    /*     node->paramTypeInfo = child_1_info; */
+    /*     node->returnTypeInfo = child_2_info; */
+    /*     info->node = node; */
+    /*     info->nextInfo = NULL; */
+    /* } */
     OverWrite(parent->other_info, info);
 
     D_child_2;
@@ -230,22 +230,22 @@ NSD(712)
 
     D_child_2_info;
     TypeInfo *info;
-    if (((FunctionNode *)child_2_info->node)->paramTypeInfo == NULL)
-    {
-        ((FunctionNode *)child_2_info->node)->paramTypeInfo = i;
-	info = child_2_info;
-	info->nextInfo = NULL;
-    }
-    else
-    {
-        info = malloc(sizeof(TypeInfo));
-        info->typeKind = FunctionType;
-        FunctionNode *node = malloc(sizeof(FunctionNode));
-        node->paramTypeInfo = i;
-        node->returnTypeInfo = child_2_info;
-        info->node = node;
-        info->nextInfo = NULL;
-    }
+    /* if (((FunctionNode *)child_2_info->node)->paramTypeInfo == NULL) */
+    /* { */
+    /*     ((FunctionNode *)child_2_info->node)->paramTypeInfo = i; */
+	/* info = child_2_info; */
+	/* info->nextInfo = NULL; */
+    /* } */
+    /* else */
+    /* { */
+    /*     info = malloc(sizeof(TypeInfo)); */
+    /*     info->typeKind = FunctionType; */
+    /*     FunctionNode *node = malloc(sizeof(FunctionNode)); */
+    /*     node->paramTypeInfo = i; */
+    /*     node->returnTypeInfo = child_2_info; */
+    /*     info->node = node; */
+    /*     info->nextInfo = NULL; */
+    /* } */
     OverWrite(parent->other_info, info);
 
     D_child_1;
@@ -256,26 +256,26 @@ NSD(712)
 END
 
 NSD(713)
-    /* info begin */
-    TypeInfo *info = (TypeInfo *)malloc(sizeof(TypeInfo));
-    /* node begin */
-    FunctionNode *node = (FunctionNode *)malloc(sizeof(FunctionNode));
-    node->paramTypeInfo = NULL;
-    /* returnTypeInfo begin */
-    TypeInfo *returnTypeInfo = (TypeInfo *)malloc(sizeof(TypeInfo));
-    returnTypeInfo->typeKind = AlgebraicDataType;
-    returnTypeInfo->node = (TypeInfo *)malloc(sizeof(AlgebraicDataTypeNode));
-    D_parent_info;
-    ((AlgebraicDataTypeNode *)returnTypeInfo->node)->typeIdName = (char *)parent_info;
-    returnTypeInfo->nextInfo = NULL;
-    /* returnTypeInfo end */
-    node->returnTypeInfo = returnTypeInfo;
-    /* node end */
-    info->typeKind = FunctionType;
-    info->node = node;
-    info->nextInfo = NULL;
-    /* info end */
-    parent->other_info = info;
+    /* /1* info begin *1/ */
+    /* TypeInfo *info = (TypeInfo *)malloc(sizeof(TypeInfo)); */
+    /* /1* node begin *1/ */
+    /* FunctionNode *node = (FunctionNode *)malloc(sizeof(FunctionNode)); */
+    /* node->paramTypeInfo = NULL; */
+    /* /1* returnTypeInfo begin *1/ */
+    /* TypeInfo *returnTypeInfo = (TypeInfo *)malloc(sizeof(TypeInfo)); */
+    /* returnTypeInfo->typeKind = AlgebraicDataType; */
+    /* returnTypeInfo->node = (TypeInfo *)malloc(sizeof(AlgebraicDataTypeNode)); */
+    /* D_parent_info; */
+    /* ((AlgebraicDataTypeNode *)returnTypeInfo->node)->typeIdName = (char *)parent_info; */
+    /* returnTypeInfo->nextInfo = NULL; */
+    /* /1* returnTypeInfo end *1/ */
+    /* node->returnTypeInfo = returnTypeInfo; */
+    /* /1* node end *1/ */
+    /* info->typeKind = FunctionType; */
+    /* info->node = node; */
+    /* info->nextInfo = NULL; */
+    /* /1* info end *1/ */
+    /* parent->other_info = info; */
 END
 
 /* TypeId */ 

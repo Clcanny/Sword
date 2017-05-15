@@ -143,23 +143,23 @@ void printTypeInfo(TypeInfo *typeInfo)
             printf(")");
             break;
         case FunctionType:
-            t1 = ((FunctionNode *)(typeInfo->node))->paramTypeInfo;
-            t2 = ((FunctionNode *)(typeInfo->node))->returnTypeInfo;
-            assert(t2 != NULL);
-            if (t1 == NULL)
-            {
-                printf("nullary(");
-                printTypeInfo(t2);
-                printf(")");
-            }
-            else
-            {
-                printf("unary(");
-                printTypeInfo(t1);
-                printf("->");
-                printTypeInfo(t2);
-                printf(")");
-            }
+            /* t1 = ((FunctionNode *)(typeInfo->node))->paramTypeInfo; */
+            /* t2 = ((FunctionNode *)(typeInfo->node))->returnTypeInfo; */
+            /* assert(t2 != NULL); */
+            /* if (t1 == NULL) */
+            /* { */
+            /*     printf("nullary("); */
+            /*     printTypeInfo(t2); */
+            /*     printf(")"); */
+            /* } */
+            /* else */
+            /* { */
+            /*     printf("unary("); */
+            /*     printTypeInfo(t1); */
+            /*     printf("->"); */
+            /*     printTypeInfo(t2); */
+            /*     printf(")"); */
+            /* } */
             break;
         case AlgebraicDataType:
             printf("%s", ((AlgebraicDataTypeNode *)(typeInfo->node))->typeIdName);

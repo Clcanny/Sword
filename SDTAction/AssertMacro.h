@@ -3,6 +3,13 @@
 
 #include <assert.h>
 
+#define AssertNull(info) \
+    assert(info == NULL);
+
+#define AssertNextInfoNull(info) \
+    assert(info != NULL); \
+    assert(((TypeInfo *)info)->nextInfo == NULL);
+
 #define AssertTypeInfo(info) \
     assert(info != NULL); \
     assert(((TypeInfo *)info)->typeKind != 0); \

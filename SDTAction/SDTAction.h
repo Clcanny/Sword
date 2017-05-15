@@ -61,8 +61,7 @@ typedef struct
 
 typedef struct
 {
-    TypeInfo *paramTypeInfo;
-    TypeInfo *returnTypeInfo;
+    TypeInfo *currentInfo;
 } FunctionNode;
 
 typedef struct LN

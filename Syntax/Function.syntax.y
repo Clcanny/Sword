@@ -1,28 +1,22 @@
 /* FuncType */
 FuncType
     : FUNC TypeParams LP FuncParamType RP { 
-        if (strcmp(((AST_node *)(((AST_node *)$4)->first_child))->str, "FuncType"))
-        {
-            $$ = new_parent_node("FuncType", GROUP_4 + 2, 1, $4);
-            $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
-        }
-        else 
-        {
-            $$ = $4;
-        }
+	$$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $2, $4);
     }
     ;
 FuncParamType
     : Specifier DEDUCT FuncParamType { 
-        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
-        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
+	$$ = new_parent_node("FuncParamType", GROUP_4 + 2, 2, $1, $3);
     }
     | TypeParam DEDUCT FuncParamType {
-        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
-        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
+	$$ = new_parent_node("FuncParamType", GROUP_4 + 3, 2, $1, $3);
     }
-    | Specifier { $$ = $1; }
-    | TypeParam { $$ = $1; }
+    | Specifier {
+	$$ = new_parent_node("FuncParamType", GROUP_4 + 4, 1, $1);
+    }
+    | TypeParam {
+	$$ = new_parent_node("FuncParamType", GROUP_4 + 4, 1, $1);
+    }
     ;
 
 /* 函数体的定义 */

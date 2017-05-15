@@ -15,7 +15,7 @@ TypeClassId
     ;
 
 InstanceDef
-    : INSTANCE TypeParams TypeClassId TypeParams LC VarDefs RC {
+    : INSTANCE TypeParams TypeClassId TypeArgs LC VarDefs RC {
 	$$ = new_parent_node("InstanceDef", GROUP_12 + 4, 4, $2, $3, $4, $6);
     }
     ;

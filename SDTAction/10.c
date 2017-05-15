@@ -105,10 +105,10 @@ SD(1019)
     D_child_1_info;
     assert(child_1_info != NULL);
     assert(child_1_info->typeKind == FunctionType);
-    FunctionNode *node = (FunctionNode *)child_1_info->node;
-    assert(node != NULL);
-    assert(node->returnTypeInfo != NULL);
-    assert(child_1_info->nextInfo == NULL);
+    /* FunctionNode *node = (FunctionNode *)child_1_info->node; */
+    /* assert(node != NULL); */
+    /* assert(node->returnTypeInfo != NULL); */
+    /* assert(child_1_info->nextInfo == NULL); */
 
     assert(parent->other_info == NULL);
     parent->other_info = child_1_info;
