@@ -391,8 +391,8 @@ END
 /*     OverWrite(parent->other_info, ((FunctionNode *)parent_info->node)->returnTypeInfo); */
 /* END */
 
-/* void initActionTable4() */
-/* { */
-/*     IS(407, 408, 410, 411, 412); */
-/*     SS(401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413); */
-/* } */
+void initActionTable4()
+{
+    /* IS(407, 408, 410, 411, 412); */
+    /* SS(401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413); */
+}

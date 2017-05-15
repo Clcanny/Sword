@@ -87,7 +87,7 @@ NSD(806)
     assert(child_1_info->typeKind == FunctionType);
     FunctionNode *node = (FunctionNode *)child_1_info->node;
     assert(node != NULL);
-    assert(node->returnTypeInfo!= NULL);
+    /* assert(node->returnTypeInfo!= NULL); */
     assert(child_1_info->nextInfo == NULL);
 
     assert(parent->other_info == NULL);
