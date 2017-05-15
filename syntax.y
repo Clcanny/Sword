@@ -101,18 +101,17 @@ Stmt
 CompSt
     : LC DSList RC { $$ = new_parent_node("Compst", GROUP_3 + 10, 1, $2); }
     ;
-/* Function */
-/* 函数类型 */
+/* FuncType */
 FuncType
-    : FUNC LP FuncParamType RP { 
-        if (strcmp(((AST_node *)(((AST_node *)$3)->first_child))->str, "FuncType"))
+    : FUNC TypeParams LP FuncParamType RP { 
+        if (strcmp(((AST_node *)(((AST_node *)$4)->first_child))->str, "FuncType"))
         {
-            $$ = new_parent_node("FuncType", GROUP_4 + 2, 1, $3);
+            $$ = new_parent_node("FuncType", GROUP_4 + 2, 1, $4);
             $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
         }
         else 
         {
-            $$ = $3;
+            $$ = $4;
         }
     }
     ;
@@ -121,7 +120,12 @@ FuncParamType
         $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
         $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
     }
+    | TypeParam DEDUCT FuncParamType {
+        $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); 
+        $$ = new_parent_node("Specifier", GROUP_8 + 6, 1, $$);
+    }
     | Specifier { $$ = $1; }
+    | TypeParam { $$ = $1; }
     ;
 
 /* 函数体的定义 */
@@ -359,6 +363,9 @@ Test
     | ADTDef SEMI Test {
 	$$ = new_parent_node("Test", 0, 1, $1);	
 	print_child_node($$, 0);
+    }
+    | FuncType SEMI Test {
+	$$ = new_parent_node("Test", 0, 1, $1);
     }
     | SEMI { $$ = NULL; }
     | /* empty */ { $$ = NULL; }
