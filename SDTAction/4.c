@@ -22,7 +22,7 @@
 /*     } */
 /*     ; */
 NSDS(402, 403, 404,
-printf("I'm working!");
+printf("I'm working!\n");
 D_child_1_info;
 AssertTypeInfo(child_1_info);
 AssertNoNull(getASTNode((char *)child_1_info->node));
