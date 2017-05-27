@@ -1,6 +1,6 @@
-#ifndef GROUP_3_H
-#define GROUP_3_H
+/* #ifndef GROUP_3_H */
+/* #define GROUP_3_H */
 
-void initActionTable3();
+/* void initActionTable3(); */
 
-#endif
+/* #endif */
