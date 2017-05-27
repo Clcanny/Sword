@@ -12,12 +12,16 @@ Test
 	print_child_node($$, 0);
     }
     | FuncType SEMI Test {
-	$$ = new_parent_node("Test", 0, 1, $1);
+	$$ = new_parent_node("Test", 1, 1, $1);
 	print_child_node($$, 0);
+	initActionTable();
+	traversalTreePerformAction($$);
     }
     | FuncDec SEMI Test {
 	$$ = new_parent_node("Test", 0, 1, $1);
 	print_child_node($$, 0);
+	initActionTable();
+	traversalTreePerformAction($$);
     }
     | ADTDef SEMI Test {
 	$$ = new_parent_node("Test", 0, 1, $1);	
@@ -25,6 +29,8 @@ Test
     }
     | FuncType SEMI Test {
 	$$ = new_parent_node("Test", 0, 1, $1);
+	initActionTable();
+	traversalTreePerformAction($$);
     }
     | SEMI { $$ = NULL; }
     | /* empty */ { $$ = NULL; }

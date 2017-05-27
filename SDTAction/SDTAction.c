@@ -79,6 +79,7 @@ void registerSAction(int proNum, SDTSAction action)
 
 void traversalTreePerformAction(AST_node *parent)
 {
+    printf("begin traversal\n");
     int proNum = parent->proNum;
     if (proNum == 0)
     {
