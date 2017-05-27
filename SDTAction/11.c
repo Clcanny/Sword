@@ -7,7 +7,8 @@
 /*     ; */
 NSD(1106)
     D_child_1;
-    parent->other_info = child_1->str;
+    /* parent->other_info = child_1->str; */
+    Alloc(parent->other_info, child_1->str);
     D_parent_info;
     printf("%s\n", parent_info);
 }
