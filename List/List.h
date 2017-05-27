@@ -1,17 +1,36 @@
 #ifndef List_H
 #define List_H
 
-typedef struct ln
+#include <malloc.h>
+#include "Bool.h"
+
+typedef struct structlistnode
 {
-    struct ln *prev;
-    struct ln *next;
-    void * value;
+    struct structlistnode *prev;
+    struct structlistnode *next;
+    void *data;
 } ListNode;
 
-void insertListNode(void *value)
-{
-}
+typedef struct structlist {
+    ListNode *begin;
+    ListNode *end;
+    bool (*cmp_f)(void *d1, void *d2);
+    bool (*find_f)(void *data, void *key);
+    void (*clean_f)(void *data);
+} List;
 
-void delListNode(bool (*fn)(void *), v)
+List *newList(
+	bool (*f1)(void *d1, void *d2),
+	bool (*f2)(void *data, void *key),
+	void (*f3)(void *data)
+	)
+{
+    List *list = (List *)malloc(sizeof(List));
+    list->cmp_f = f1;
+    list->find_f = f2;
+    list->clean_f = f3;
+    list->begin = list->end = NULL;
+    return list;
+}
 
 #endif
