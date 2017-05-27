@@ -1,6 +1,6 @@
-/* #ifndef GROUP_4_H */
-/* #define GROUP_4_H */
+#ifndef GROUP_4_H
+#define GROUP_4_H
 
-/* void initActionTable4(); */
+void initActionTable4();
 
-/* #endif */
+#endif

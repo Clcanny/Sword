@@ -1,2 +1,1 @@
-fn[A: TypeClassA TypeClassB, B](A -> B -> Int)
-fn[](Int)
+fn[T](T -> T -> Int)

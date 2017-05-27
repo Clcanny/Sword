@@ -22,6 +22,7 @@
 /*     } */
 /*     ; */
 NSDS(402, 403, 404,
+printf("I'm working!");
 D_child_1_info;
 AssertTypeInfo(child_1_info);
 AssertNoNull(getASTNode((char *)child_1_info->node));
@@ -438,4 +439,5 @@ void initActionTable4()
 {
     /* IS(407, 408, 410, 411, 412); */
     /* SS(401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413); */
+    SS(402, 403, 404);
 }

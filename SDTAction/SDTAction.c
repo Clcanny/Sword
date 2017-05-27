@@ -26,7 +26,7 @@ void initActionTable()
     sdtSActionTable = (SDTSAction *)calloc(ProSum, sizeof(SDTIAction));
 
     /* initActionTable3(); */
-    /* initActionTable4(); */
+    initActionTable4();
     /* initActionTable7(); */
     /* initActionTable8(); */
     /* initActionTable9(); */
