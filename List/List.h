@@ -12,4 +12,6 @@ void insertListNode(void *value)
 {
 }
 
+void delListNode(bool (*fn)(void *), v)
+
 #endif
