@@ -1,3 +1,6 @@
+#ifndef ForEach_H
+#define ForEach_H
+
 #include "syntax_tree.h"
 
 #define GetLast2(N, Code) Code
@@ -53,8 +56,4 @@
 #define NIDS(N, ...) \
 	ForEach(NIDSHelper, N, __VA_ARGS__)
 
-NIDS(1, 2, 3,
-{
-    return;
-}
-)
+#endif
