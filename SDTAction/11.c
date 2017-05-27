@@ -6,9 +6,9 @@
 /*     : UPPERID { $$ = new_parent_node("TypeParam", GROUP_11 + 6, 1, $1); } */
 /*     ; */
 NSD(1106)
-    D_parent_info;
     D_child_1;
     parent->other_info = child_1->str;
+    D_parent_info;
     printf("%s\n", parent_info);
 }
 /* NSD(1102) */
@@ -36,5 +36,5 @@ NSD(1106)
 
 void initActionTable11()
 {
-    /* SS(1106); */
+    SS(1106);
 }

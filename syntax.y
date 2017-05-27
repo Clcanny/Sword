@@ -351,6 +351,8 @@ ReferType
 Test
     : TypeParams SEMI Test {
 	$$ = new_parent_node("Test", 1, 1, $1);
+	initActionTable();
+	traversalTreePerformAction($$);
 	print_child_node($$, 1);
     }
     | VarDef SEMI Test {
