@@ -38,15 +38,15 @@
 	N, __VA_ARGS__)
 
 #define NID(N) \
-    void pro##N##IAction(AST_node *parent, AST_node *child, int childNum) \
-    { \
-    const int proNum = N; \
-    const AllocatorRole allocatorRole = IRole;
+	void pro##N##IAction(AST_node *parent, AST_node *child, int childNum) \
+    	{ \
+    	const int proNum = N; \
+    	const AllocatorRole allocatorRole = IRole;
 
 #define NIDSHelper(Code, N) \
 	NID(N) \
 	Code \
-	END
+	}
 
 #define NIDS(N, ...) \
 	ForEach(NIDSHelper, N, __VA_ARGS__)
@@ -60,11 +60,9 @@
 #define NSDSHelper(Code, N) \
 	NSD(N) \
 	Code \
-	END
+	}
 
 #define NSDS(N, ...) \
 	ForEach(NSDSHelper, N, __VA_ARGS__)
-
-#define END }
 
 #endif
