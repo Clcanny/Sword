@@ -55,9 +55,6 @@
 
 NIDS(1, 2, 3,
 {
-    "Hello";
+    return;
 }
-;
-"Hello";
-return 0;
 )
