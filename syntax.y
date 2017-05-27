@@ -350,35 +350,35 @@ ReferType
     ;
 Test
     : TypeParams SEMI Test {
-	$$ = new_parent_node("Test", 0, 1, $1);
-	print_child_node($$, 0);
+	$$ = new_parent_node("Test", 1, 1, $1);
+	print_child_node($$, 1);
     }
     | VarDef SEMI Test {
-	$$ = new_parent_node("Test", 0, 1, $1);
-	print_child_node($$, 0);
+	$$ = new_parent_node("Test", 1, 1, $1);
+	print_child_node($$, 1);
     }
     | TypeClassDef SEMI Test {
-	$$ = new_parent_node("Test", 0, 1, $1);
-	print_child_node($$, 0);
+	$$ = new_parent_node("Test", 1, 1, $1);
+	print_child_node($$, 1);
     }
     | FuncType SEMI Test {
 	$$ = new_parent_node("Test", 1, 1, $1);
-	print_child_node($$, 0);
+	print_child_node($$, 1);
 	initActionTable();
 	traversalTreePerformAction($$);
     }
     | FuncDec SEMI Test {
-	$$ = new_parent_node("Test", 0, 1, $1);
-	print_child_node($$, 0);
+	$$ = new_parent_node("Test", 1, 1, $1);
+	print_child_node($$, 1);
 	initActionTable();
 	traversalTreePerformAction($$);
     }
     | ADTDef SEMI Test {
-	$$ = new_parent_node("Test", 0, 1, $1);	
-	print_child_node($$, 0);
+	$$ = new_parent_node("Test", 1, 1, $1);	
+	print_child_node($$, 1);
     }
     | FuncType SEMI Test {
-	$$ = new_parent_node("Test", 0, 1, $1);
+	$$ = new_parent_node("Test", 1, 1, $1);
 	initActionTable();
 	traversalTreePerformAction($$);
     }

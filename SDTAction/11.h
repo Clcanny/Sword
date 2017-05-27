@@ -1,6 +1,6 @@
-/* #ifndef GROUP_11_H */
-/* #define GROUP_11_H */
+#ifndef GROUP_11_H
+#define GROUP_11_H
 
-/* void initActionTable11(); */
+void initActionTable11();
 
-/* #endif */
+#endif

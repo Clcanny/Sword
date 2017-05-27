@@ -1,6 +1,16 @@
-/* #include "SDTAction.h" */
-/* #include "11.h" */
+#include "SDTAction.h"
+#include "ForEach.h"
+#include "11.h"
 
+/* TypeParam */
+/*     : UPPERID { $$ = new_parent_node("TypeParam", GROUP_11 + 6, 1, $1); } */
+/*     ; */
+NSD(1106)
+    D_parent_info;
+    D_child_1;
+    parent->other_info = child_1->str;
+    printf("%s\n", parent_info);
+}
 /* NSD(1102) */
 /* D_child_1; */
 /* D_child_1_info; */
@@ -24,5 +34,7 @@
 /* Alloc(parent->other_info, type_info); */
 /* END */
 
-/* void initActionTable11() */
-/* {} */
+void initActionTable11()
+{
+    /* SS(1106); */
+}
