@@ -1,3 +1,5 @@
+#include "syntax_tree.h"
+
 #define GetLast2(N, Code) Code
 #define GetLast3(N, ...) GetLast2(__VA__ARGS__)
 #define GetLast4(N, ...) GetLast3(__VA__ARGS__)
@@ -49,7 +51,6 @@
 #define NIDS(N, ...) \
     ForEach(NIDSHelper, N, __VA__ARGS__)
 
-NIDS(1, 2, 3, "Hello")
-/* NIDS(1, 2, { printf("Hello"); printf("Hi"); }) */
-/* NID(2) */
-/* END */
+/* NIDS(1, 2, 3, "Hello") */
+/* GetLast4(1, 2, 3, "Hello") */
+GetLast3(1, 2, 3)
