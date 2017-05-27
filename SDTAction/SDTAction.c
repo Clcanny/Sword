@@ -5,7 +5,7 @@ void deallocPointer() {}
 void noallocPointer() {}
 
 /* 产生式数目 */
-static const int ProCount[10] = { 1, 2, 10, 13, 1, 1, 18, 6, 8, 19};
+static const int ProCount[14] = { 1, 2, 10, 13, 1, 1, 18, 6, 8, 19, 30, 30, 30, 30};
 static int ProSum = 0;
 
 static SDTIAction *sdtIActionTable = NULL;
@@ -14,7 +14,7 @@ static SDTSAction *sdtSActionTable = NULL;
 void initActionTable()
 {
     int i;
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 14; i++)
     {
         ProSum += ProCount[i];
     }
