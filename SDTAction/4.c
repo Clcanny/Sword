@@ -20,7 +20,7 @@
 /* 	$$ = new_parent_node("FuncParamType", GROUP_4 + 4, 1, $1); */
 /*     } */
 /*     ; */
-NSD(402)
+NSDS(402, 403, 404,
 D_child_1_info;
 AssertTypeInfo(child_1_info);
 AssertNoNull(getASTNode((char *)child_1_info->node));
@@ -39,48 +39,48 @@ else
     }
     tmp->nextInfo = child_1_info;
 }
-END
+)
 
-NSD(403)
-D_child_1_info;
-AssertTypeInfo(child_1_info);
-AssertNextInfoNull(child_1_info);
-if (parent->other_info == NULL)
-{
-    Alloc(parent->other_info, child_1_info);
-}
-else
-{
-    D_parent_info;
-    TypeInfo *tmp = parent_info;
-    while (tmp->nextInfo != NULL)
-    {
-	tmp = tmp->nextInfo;
-    }
-    tmp->nextInfo = child_1_info;
-}
-END
+/* NSD(403) */
+/* D_child_1_info; */
+/* AssertTypeInfo(child_1_info); */
+/* AssertNextInfoNull(child_1_info); */
+/* if (parent->other_info == NULL) */
+/* { */
+/*     Alloc(parent->other_info, child_1_info); */
+/* } */
+/* else */
+/* { */
+/*     D_parent_info; */
+/*     TypeInfo *tmp = parent_info; */
+/*     while (tmp->nextInfo != NULL) */
+/*     { */
+/* 	tmp = tmp->nextInfo; */
+/*     } */
+/*     tmp->nextInfo = child_1_info; */
+/* } */
+/* END */
 
-NSD(404)
-D_child_1_info;
-AssertTypeInfo(child_1_info);
-AssertNoNull(getASTNode((char *)child_1_info->node));
-AssertNextInfoNull(child_1_info);
-if (parent->other_info == NULL)
-{
-    Alloc(parent->other_info, child_1_info);
-}
-else
-{
-    D_parent_info;
-    TypeInfo *tmp = parent_info;
-    while (tmp->nextInfo != NULL)
-    {
-	tmp = tmp->nextInfo;
-    }
-    tmp->nextInfo = child_1_info;
-}
-END
+/* NSD(404) */
+/* D_child_1_info; */
+/* AssertTypeInfo(child_1_info); */
+/* AssertNoNull(getASTNode((char *)child_1_info->node)); */
+/* AssertNextInfoNull(child_1_info); */
+/* if (parent->other_info == NULL) */
+/* { */
+/*     Alloc(parent->other_info, child_1_info); */
+/* } */
+/* else */
+/* { */
+/*     D_parent_info; */
+/*     TypeInfo *tmp = parent_info; */
+/*     while (tmp->nextInfo != NULL) */
+/*     { */
+/* 	tmp = tmp->nextInfo; */
+/*     } */
+/*     tmp->nextInfo = child_1_info; */
+/* } */
+/* END */
 /* FuncParamType */
 /*     : Specifier DEDUCT FuncParamType { */ 
 /*         $$ = new_parent_node("FuncType", GROUP_4 + 1, 2, $1, $3); */ 

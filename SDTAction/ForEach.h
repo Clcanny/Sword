@@ -1,7 +1,7 @@
 #ifndef ForEach_H
 #define ForEach_H
 
-#include "syntax_tree.h"
+/* #include "syntax_tree.h" */
 
 #define GetLast2(N, Code) Code
 #define GetLast3(N, ...) GetLast2(__VA_ARGS__)
