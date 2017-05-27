@@ -57,7 +57,7 @@
 	const int proNum = N; \
 	const AllocatorRole allocatorRole = SRole;
 
-#define NSDHelper(N, ...) \
+#define NSDSHelper(Code, N) \
 	NSD(N) \
 	Code \
 	END
