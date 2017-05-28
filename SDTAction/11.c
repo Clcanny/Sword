@@ -9,9 +9,14 @@ NSD(1106)
     D_child_1;
     Alloc(parent->other_info, child_1->str);
     Noalloc(parent->other_info);
-    D_parent_info;
-    printf("%s\n", parent_info);
 }
+
+/* TypeClassList */
+/*     : TypeClassId TypeClassList { $$ = new_parent_node("TypeClassList", GROUP_11 + 7, 2, $1, $2); } */
+/*     | /1* empty *1/ { $$ = NULL; } */
+/*     ; */
+
+
 /* NSD(1102) */
 /* D_child_1; */
 /* D_child_1_info; */

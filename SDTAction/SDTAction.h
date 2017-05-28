@@ -20,6 +20,7 @@
 #include "9.h"
 #include "10.h"
 #include "11.h"
+#include "List.h"
 
 /* 第一个参数是父亲节点，第二个参数是需要准备继承属性的儿子节点 */
 /* 第三个参数是需要准备继承属性的节点的编号 */
@@ -36,6 +37,12 @@ void registerSAction(int proNum, SDTSAction action);
 void traversalTreePerformAction(AST_node *parent);
 
 enum TypeKindEnum { BuildInType = 1, ArrayType, ReferType, FunctionType, AlgebraicDataType, GenericType, TypeParam };
+
+typedef struct
+{
+    char *name;
+    List *typeclasses;
+} TypeParamInfo;
 
 typedef struct
 {
@@ -65,11 +72,11 @@ typedef struct
     TypeInfo *currentInfo;
 } FunctionNode;
 
-typedef struct LN
-{
-    struct LN *lastBrother, *nextBrother;
-    void *data;
-} ListNode;
+/* typedef struct LN */
+/* { */
+/*     struct LN *lastBrother, *nextBrother; */
+/*     void *data; */
+/* } ListNode; */
 
 typedef struct
 {
