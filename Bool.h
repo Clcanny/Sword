@@ -1,10 +1,10 @@
 #ifndef Bool_H
 #define Bool_H
 
-enum bool
+typedef enum enumbool
 {
     false = 0,
     true = 1
-};
+} bool;
 
 #endif
