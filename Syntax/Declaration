@@ -34,8 +34,8 @@
     void *type_node;
 }
 
-%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER CLASS INSTANCE
-%token <type_node> DATA
+%token <type_node> SEMI COMMA COLON SINGLEOR PLACEHOLDER 
+%token <type_node> DATA CLASS INSTANCE
 %token <type_node> DEDUCT FUNC
 %token <type_node> REFER
 %token <type_node> ASSIGNOP
@@ -44,23 +44,24 @@
 %token <type_node> AND OR NOT DOT
 %token <type_node> LET VAR BUILDINTYPE
 %token <type_node> LP RP LB RB LC RC
-%token <type_node> RETURN IF ELSE WHILE
+%token <type_node> RETURN IF ELIF ELSE WHILE
 %token <type_node> INT FLOAT
 %token <type_node> LOWERID UPPERID
 
-%type <type_node> TypeParams TypeParamList TypeParam Test TypeArgs
-%type <type_node> TypeClassList TypeClassId TypeClassDef VarDefs
-%type <type_node> ArrayType ReferType FuncCall ADTType ADTTypeUseTypeList
-%type <type_node> ADTHeader ADTParamList PatternMatching PatternMatchingParamList
-%type <type_node> ConstructorId TypeId ConstructorUseTypeList ConstructorDec ConstructorDecList ADTDef
-%type <type_node> FuncType FuncParamType FuncBody
+%type <type_node> ADTDef ADTHeader TypeId ConstructorDecList ConstructorDec ConstructorId ConstructorUseTypeList
+%type <type_node> ADTType ADTTypeUseTypeList
+%type <type_node> PatternMatching PatternMatchingParamList
+%type <type_node> ArrayType
 %type <type_node> DSList
-%type <type_node> Program
+%type <type_node> Exp
+%type <type_node> FuncType FuncParamType FuncDec VarList FuncBody FuncCall Args
+%type <type_node> Program Test
+%type <type_node> ReferType
 %type <type_node> Specifier
-%type <type_node> VarDec FuncDec VarList ParamDec VarUse
-%type <type_node> CompSt Stmt
-%type <type_node> VarDef DecList Dec
-%type <type_node> Exp Args InstanceDef
+%type <type_node> Stmt CompSt
+%type <type_node> TypeClassDef VarDefs TypeClassId InstanceDef
+%type <type_node> TypeParams TypeParamList TypeParam TypeClassList TypeArgs
+%type <type_node> VarDef VarDec VarUse
 
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE

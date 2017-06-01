@@ -236,6 +236,11 @@ if {
     yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "IF");
     return IF;
 }
+elif {
+    print_loc_info("ELIF");
+    yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "ELIF");
+    return ELIF;
+}
 else {
     print_loc_info("ELSE");
     yylval.type_node = new_token_node(yylloc.first_line, yylloc.first_column, "ELSE");
